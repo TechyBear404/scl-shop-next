@@ -20,6 +20,11 @@ export default async function HomePage() {
   return (
     <main className="">
       <div className="flex flex-wrap justify-center gap-4">
+        {products.map((product) => (
+          <div key={product.id} className="w-48">
+            {product.name}
+          </div>
+        ))}
         {images.map((image, index) => (
           <figure key={image.id + "-" + index} className=" w-48">
             <img
