@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { db } from "~/server/db";
 
+export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const imgUrls = [
     "https://utfs.io/f/9d9c3310-6c5e-4736-9032-cab5e577912c-m5gqji.jpg",
