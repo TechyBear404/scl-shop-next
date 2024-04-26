@@ -9,7 +9,7 @@ export default async function HomePage() {
 
   return (
     <main className=" m-auto ml-60 mt-16">
-      <section className="productsSection grid grid-flow-col grid-cols-4 gap-10 p-10">
+      <section className="productsSection flex flex-wrap  items-start justify-start gap-10 p-10">
         {products.map((product, index) => (
           <ProductCard product={product} key={product.id + "-" + index} />
         ))}
