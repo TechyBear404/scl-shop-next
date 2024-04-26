@@ -26,11 +26,9 @@ export default function ProductCard({ product }: { product: ProductType }) {
               imgUrl: product.imgUrl,
             },
           }}
+          className="absolute top-1/2 place-self-center border bg-white bg-opacity-50 px-4 py-1"
         >
-          <button
-            type="button"
-            className="absolute top-1/2 place-self-center border bg-white bg-opacity-50 px-4 py-1"
-          >
+          <button type="button" className="">
             En détail
           </button>
         </Link>
