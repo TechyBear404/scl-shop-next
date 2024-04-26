@@ -5,15 +5,14 @@ import ProductCard from "~/_components/productCard";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage() {
-  // const products = await db.query.products.findMany();
+  const products = await db.query.products.findMany();
 
   return (
-    <main className="m-auto mt-24 max-w-5xl">
-      <section className="productsSection flex flex-wrap gap-10">
-        {/* {products.map((product, index) => (
+    <main className=" m-auto ml-60 mt-16">
+      <section className="productsSection grid grid-flow-col grid-cols-4 gap-10 p-10">
+        {products.map((product, index) => (
           <ProductCard product={product} key={product.id + "-" + index} />
-        ))} */}
-        Acceuil
+        ))}
       </section>
     </main>
   );

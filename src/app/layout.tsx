@@ -15,8 +15,15 @@ export const metadata = {
 
 function TopNav() {
   return (
-    <nav className="flex w-full border-b bg-gray-800 p-4 text-white">
+    <nav className="fixed flex w-full gap-10 border-b bg-rose-200 p-4 text-white">
       <div className="text-2xl font-bold">Candle</div>
+      <div className="flex-grow"></div>
+      <div>
+        <a href="/">Acceuil</a>
+      </div>
+      <div>
+        <a href="/products">Produits</a>
+      </div>
     </nav>
   );
 }
@@ -28,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable} flex flex-col gap-4`}>
+      <body className={`font-sans ${inter.variable} flex flex-col`}>
         <TopNav />
         {children}
       </body>

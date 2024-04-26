@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-black text-white;
+@layer base {
+  :root {
+    --color-rose-990: rgb(51, 4, 19);
+  }
 }
+
+body {
+  @apply text-rose-990 bg-rose-50;
+  font-size: 100%;
+}
+
+/* div#cardContainer:hover ~ div {
+  @apply opacity-50;
+} */
+
+/* .productsSection:hover > .cardContainer {
+  filter: brightness(0.5) saturate(0.5);
+}
+.cardContainer:hover {
+  filter: brightness(1) saturate(1);
+} */

@@ -18,11 +18,13 @@ import {
  */
 export const createTable = pgTableCreator((name) => `scl-shop-next_${name}`);
 
-export const posts = createTable(
-  "post",
+export const products = createTable(
+  "product",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    name: varchar("name", { length: 256 }).notNull(),
+    desc: varchar("desc", { length: 256 }).notNull(),
+    imgUrl: varchar("imgUrl", { length: 1024 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -30,5 +32,5 @@ export const posts = createTable(
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
-  })
+  }),
 );
