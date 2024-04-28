@@ -13,10 +13,6 @@ body {
   font-size: 100%;
 }
 
-#homeHeader {
-  background-image: url("/images/femme_homme_bougie.jpg");
-}
-
 /* div#cardContainer:hover ~ div {
   @apply opacity-50;
 } */
