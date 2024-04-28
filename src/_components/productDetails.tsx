@@ -17,15 +17,15 @@ function ProductDetails() {
       {modal && (
         <dialog className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-auto bg-black bg-opacity-50 backdrop-blur">
           <div className="relative m-auto bg-white p-8">
-            <Link href={pathname} className="absolute right-0 top-0">
-              <div className=" aspect-square px-2 hover:bg-red-500 hover:text-white">
+            <Link href={pathname} className="absolute -right-6 -top-6">
+              <div className=" aspect-square px-2 text-rose-800 hover:text-white">
                 X
               </div>
             </Link>
             <div className="w-full duration-500 ease-in-out hover:duration-300 md:w-60 lg:w-72 xl:w-96">
               <figure className="relative flex w-40 flex-col md:w-full">
                 <Image
-                  src={imgUrl ?? ""} // Access the 'data' property of 'product.imgUrl' and assert its type as string
+                  src={imgUrl ?? ""}
                   width={500}
                   height={500}
                   alt=""

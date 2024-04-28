@@ -9,8 +9,12 @@
 }
 
 body {
-  @apply text-rose-990 bg-rose-50;
+  @apply bg-rose-50 text-rose-990;
   font-size: 100%;
+}
+
+#homeHeader {
+  background-image: url("/images/femme_homme_bougie.jpg");
 }
 
 /* div#cardContainer:hover ~ div {
