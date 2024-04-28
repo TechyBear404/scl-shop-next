@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   return (
     <>
-      <section className="mt-16 flex flex-col">
+      <section className="flex flex-col">
         <figure>
           <Image
             src="/images/femme_homme_bougie.jpg"
@@ -13,6 +13,10 @@ export default async function HomePage() {
             alt="hero"
             className="w-full object-cover"
           />
+          <div>
+            <h3>Besoin de détentes?</h3>
+            <h1></h1>
+          </div>
         </figure>
         <main className="m-auto max-w-5xl">
           <section className="productsSection flex flex-wrap gap-10">

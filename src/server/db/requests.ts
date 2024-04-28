@@ -1,27 +1,35 @@
 import { db } from "~/server/db";
 
-export const products = await db.query.products.findMany({
-  columns: {
-    createdAt: false,
-    updatedAt: false,
-  },
-  with: {
-    category: {
-      columns: {
-        createdAt: false,
-        updatedAt: false,
+import { cache } from "react";
+
+export const getProducts = cache(async () => {
+  const products = await db.query.products.findMany({
+    columns: {
+      createdAt: false,
+      updatedAt: false,
+    },
+    with: {
+      category: {
+        columns: {
+          createdAt: false,
+          updatedAt: false,
+        },
       },
     },
-  },
+  });
+  return products;
 });
 
-export type ProductType = Awaited<typeof products>[0];
+export type ProductType = Awaited<ReturnType<typeof getProducts>>[0];
 
-export const categories = await db.query.categories.findMany({
-  columns: {
-    createdAt: false,
-    updatedAt: false,
-  },
+export const getCategories = cache(async () => {
+  const categories = await db.query.categories.findMany({
+    columns: {
+      createdAt: false,
+      updatedAt: false,
+    },
+  });
+  return categories;
 });
 
-export type CategoryType = Awaited<typeof categories>[0];
+export type CategoryType = Awaited<ReturnType<typeof getCategories>>[0];

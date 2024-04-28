@@ -1,52 +1,22 @@
 // "use client";
 import ProductDetails from "~/_components/productDetails";
-import { categories } from "~/server/db/requests";
-import { db } from "~/server/db";
-// import { useState, useEffect } from "react";
+import { getCategories } from "~/server/db/requests";
 
-async function ProductNav({ test }: { test: (name: string) => void }) {
-  let categories;
-  try {
-    categories = await db.query.categories.findMany({
-      columns: {
-        createdAt: false,
-        updatedAt: false,
-      },
-    });
-  } catch (error) {
-    // console.log(error.message);
-  }
-  return (
-    <nav className="fixed mt-16 hidden h-screen w-60 bg-white md:block">
-      {categories.map((category) => (
-        <button type="button" key={category.id}>
-          {category.name}
-        </button>
-      ))}
-    </nav>
-  );
-}
+import { ProductNav } from "./productNav";
 
-console.log(categories);
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // const [category, setCategory] = useState(1);
-
-  // const updateSelectedCategory = (category: number): void => {
-  //   setCategory(category);
-  // };
-  // console.log(category);
   const test = (text: string) => {
     console.log(text);
   };
+  const categories = await getCategories();
 
   return (
     <div className="flex">
-      <ProductNav test={test} />
+      <ProductNav categories={categories} test={test} />
       {children}
       <ProductDetails />
     </div>

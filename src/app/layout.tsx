@@ -15,7 +15,7 @@ export const metadata = {
 
 function TopNav() {
   return (
-    <nav className="fixed flex w-full gap-10 border-b bg-rose-200 p-4 text-white">
+    <nav className="fixed flex w-full gap-10 border-b bg-rose-200 bg-opacity-50 p-4 text-white">
       <div className="text-2xl font-bold">Candle</div>
       <div className="flex-grow"></div>
       <div>
