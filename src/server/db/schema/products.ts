@@ -1,6 +1,5 @@
 import { sql } from "drizzle-orm";
 import {
-  index,
   integer,
   pgTableCreator,
   serial,
@@ -10,7 +9,6 @@ import {
 import { relations } from "drizzle-orm";
 
 import type { InferSelectModel } from "drizzle-orm";
-import type { AnyPgColumn } from "drizzle-orm/pg-core";
 
 import { categories } from "./categories";
 
@@ -19,7 +17,9 @@ export const createTable = pgTableCreator((name) => `scl-shop-next_${name}`);
 export const products = createTable("product", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }).notNull(),
-  desc: varchar("desc", { length: 256 }).notNull(),
+  catchPhrase: varchar("catchPhrase", { length: 256 }).notNull(),
+  desc: varchar("desc", { length: 1024 }).notNull(),
+  tips: varchar("tips", { length: 512 }).notNull(),
   imgUrl: varchar("imgUrl", { length: 1024 }).notNull(),
   category: integer("catID").references(() => categories.id),
   createdAt: timestamp("created_at")
@@ -28,11 +28,43 @@ export const products = createTable("product", {
   updatedAt: timestamp("updatedAt"),
 });
 
-export const productsRelations = relations(products, ({ one }) => ({
+export const benefits = createTable("benefit", {
+  id: serial("id").primaryKey(),
+  desc: varchar("desc", { length: 256 }).notNull(),
+  productID: integer("productID")
+    .notNull()
+    .references(() => products.id),
+});
+
+export const ingredients = createTable("ingredient", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 256 }).notNull(),
+  productID: integer("productID")
+    .notNull()
+    .references(() => products.id),
+});
+
+export const ingredientsRelations = relations(benefits, ({ one }) => ({
+  product: one(products, {
+    fields: [benefits.id],
+    references: [products.id],
+  }),
+}));
+
+export const benefitsRelations = relations(benefits, ({ one }) => ({
+  product: one(products, {
+    fields: [benefits.id],
+    references: [products.id],
+  }),
+}));
+
+export const productsRelations = relations(products, ({ one, many }) => ({
   category: one(categories, {
     fields: [products.category],
     references: [categories.id],
   }),
+  ingredients: many(ingredients),
+  benefits: many(benefits),
 }));
 
 export type ProductType = InferSelectModel<typeof products>;

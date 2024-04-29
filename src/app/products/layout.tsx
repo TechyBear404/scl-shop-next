@@ -1,8 +1,8 @@
 // "use client";
-import ProductDetails from "~/_components/productDetails";
+import ProductDetails from "~/_components/product/productDetails";
 import { getCategories } from "~/server/db/requests";
 
-import { ProductNav } from "./productNav";
+import { ProductNav } from "~/_components/product/productNav";
 
 export default async function RootLayout({
   children,

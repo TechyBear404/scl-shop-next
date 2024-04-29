@@ -22,6 +22,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
               modal: true,
               id: product.id,
               name: product.name,
+              catchPhrase: product.catchPhrase,
               desc: product.desc,
               imgUrl: product.imgUrl,
             },
@@ -33,7 +34,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
       </figure>
       <div className="grow-[2] basis-2/3 bg-white px-2 text-center">
         <h2 className="p-4 text-2xl opacity-90">{product.name}</h2>
-        <p className="pb-2 opacity-60">{product.desc}</p>
+        <p className="pb-2 opacity-60">{product.catchPhrase}</p>
       </div>
     </div>
   );

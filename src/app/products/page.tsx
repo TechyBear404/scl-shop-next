@@ -1,7 +1,6 @@
 import { getProducts } from "~/server/db/requests";
-import ProductCard from "~/_components/productCard";
-import ProductDetails from "~/_components/productDetails";
-import { format } from "path";
+import ProductCard from "~/_components/product/productCard";
+import ProductDetails from "~/_components/product/productDetails";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage() {

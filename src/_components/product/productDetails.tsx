@@ -35,6 +35,18 @@ function ProductDetails() {
               <div className="flex-grow bg-white px-2 text-center">
                 <h2 className="p-4 text-2xl opacity-90">{name}</h2>
                 <p className="pb-2 opacity-60">{desc}</p>
+                <div>
+                  <h3>Ingredients:</h3>
+                  <ul>
+                    <li></li>
+                  </ul>
+                </div>
+                <div>
+                  <h3>Conseils d&apos;utilisation:</h3>
+                  <ul>
+                    <li></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

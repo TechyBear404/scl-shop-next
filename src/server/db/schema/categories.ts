@@ -1,6 +1,5 @@
 import { sql } from "drizzle-orm";
 import {
-  index,
   integer,
   pgTableCreator,
   serial,
@@ -9,8 +8,9 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-import type { InferSelectModel } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
+
+import { products } from "./products";
 
 export const createTable = pgTableCreator((name) => `scl-shop-next_${name}`);
 
@@ -34,6 +34,7 @@ export const categoriesRelation = relations(categories, ({ one, many }) => ({
     references: [categories.id],
     relationName: "subcategories",
   }),
+  products: many(products),
 }));
 
 export type Category = typeof categories.$inferSelect;
