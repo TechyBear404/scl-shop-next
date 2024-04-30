@@ -5,5 +5,5 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="container m-auto">{children}</div>;
+  return <div className="container mx-auto">{children}</div>;
 }

@@ -7,12 +7,14 @@ export function ProductNav({
   test: (name: string) => void;
 }) {
   return (
-    <nav className="fixed mt-16 hidden h-screen w-60 bg-white md:block">
-      {categories.map((category) => (
-        <button type="button" key={category.id}>
-          {category.name}
-        </button>
-      ))}
-    </nav>
+    <div className="invisible fixed mt-16 h-screen w-60 bg-white p-4 md:visible">
+      <nav className="flex flex-col items-start justify-start">
+        {categories.map((category) => (
+          <button type="button" key={category.id}>
+            {category.name}
+          </button>
+        ))}
+      </nav>
+    </div>
   );
 }
