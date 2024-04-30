@@ -1,6 +1,6 @@
 import "~/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { Inter, Merriweather } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-sans ${inter.variable} flex min-h-screen flex-col overflow-hidden overflow-y-auto `}
+        className={` flex min-h-screen flex-col overflow-hidden overflow-y-auto `}
       >
         <TopNav />
         {children}

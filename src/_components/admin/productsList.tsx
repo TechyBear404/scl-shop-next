@@ -20,7 +20,7 @@ export default async function ProductsList() {
               key={product.id}
               className="products-table grid grid-cols-5 odd:bg-white even:bg-rose-100 hover:cursor-pointer hover:border-white hover:bg-rose-400 hover:text-white"
             >
-              <div className="text-ellipsis" title={product.name}>
+              <div className="" title={product.name}>
                 {product.name}
               </div>
               <div title={product.catchPhrase}>{product.catchPhrase}</div>
