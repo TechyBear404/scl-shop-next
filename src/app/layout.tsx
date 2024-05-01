@@ -19,9 +19,11 @@ export const metadata = {
 
 async function TopNav() {
   const session = await auth();
-  // console.log(session);
-  const name = session!.user!.name!;
-  const avatarUrl = session!.user!.image!;
+  console.log(session);
+  // if (session) {
+  //   const name = session!.user!.name!;
+  //   const avatarUrl = session!.user!.image!;
+  // }
 
   return (
     <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 p-4 text-rose-800 backdrop-blur-sm">
@@ -33,7 +35,7 @@ async function TopNav() {
       <div>
         <a href="/products">Produits</a>
       </div>
-      {session ? (
+      {/* {session ? (
         <div className="flex items-center">
           <SignOut />
           <figure>
@@ -49,7 +51,7 @@ async function TopNav() {
         </div>
       ) : (
         <SignIn />
-      )}
+      )} */}
     </nav>
   );
 }
