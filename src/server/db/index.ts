@@ -12,11 +12,8 @@ import {
 import { categories, categoriesRelation } from "./schema/categories";
 import {
   users,
-  usersRelations,
   accounts,
-  accountsRelations,
   sessions,
-  sessionsRelations,
   verificationTokens,
 } from "./schema/authSchema";
 
@@ -30,11 +27,8 @@ const schema = {
   categories,
   categoriesRelation,
   users,
-  usersRelations,
   accounts,
-  accountsRelations,
   sessions,
-  sessionsRelations,
   verificationTokens,
 };
 
