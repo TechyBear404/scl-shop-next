@@ -12,7 +12,7 @@ export default function TopNav() {
   const { data: session } = useSession();
 
   return (
-    <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 p-4 font-bold text-rose-800 backdrop-blur-sm">
+    <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-4 font-bold text-rose-800 backdrop-blur-sm">
       <div className="text-2xl font-bold">Candle</div>
       <div className="flex-grow"></div>
       <div>
@@ -21,17 +21,19 @@ export default function TopNav() {
       <div>
         <Link href="/products">Produits</Link>
       </div>
-      {session ? (
-        <div className="flex items-center gap-2">
-          <SignOut />
-          <Avatar session={session} />
-        </div>
-      ) : (
-        <div className="flex items-center">
-          <SignIn />
-          <Avatar session={null} />
-        </div>
-      )}
+      <div className="flex items-center gap-2">
+        {session ? (
+          <>
+            <SignOut />
+            <Avatar session={session} />
+          </>
+        ) : (
+          <>
+            <SignIn />
+            <Avatar session={null} />
+          </>
+        )}
+      </div>
     </nav>
   );
 }
