@@ -25,13 +25,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       return url.startsWith(baseUrl) ? url : baseUrl + "/protected/client";
     },
-    // session: ({ session, user }) => ({
-    //   ...session,
-    //   user: {
-    //     ...session.user,
-    //     id: user.id,
-    //   },
-    // }),
+    session: ({ session, token, user }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: user.id,
+      },
+    }),
   },
   secret: process.env.AUTH_SECRET,
 });
