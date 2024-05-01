@@ -19,7 +19,7 @@ export const metadata = {
 
 async function TopNav() {
   const session = await auth();
-  console.log(session);
+  // console.log(session);
   const name = session!.user!.name!;
   const avatarUrl = session!.user!.image!;
 
