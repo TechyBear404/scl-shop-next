@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@auth/drizzle-adapter':
-        specifier: 0.7.0
+        specifier: ^0.7.0
         version: 0.7.0
       '@t3-oss/env-nextjs':
         specifier: ^0.10.1

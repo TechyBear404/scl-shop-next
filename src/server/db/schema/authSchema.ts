@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   index,
   integer,
+  pgEnum,
   pgTableCreator,
   primaryKey,
   serial,
@@ -11,6 +12,8 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { type AdapterAccount } from "next-auth/adapters";
+
+export const userRoles = pgEnum("role", ["admin", "user"]);
 
 export const createTable = pgTableCreator((name) => `scl-shop-next_${name}`);
 
@@ -22,6 +25,7 @@ export const users = createTable("user", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP`),
   image: varchar("image", { length: 255 }),
+  role: userRoles("roles").notNull().default("user"),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

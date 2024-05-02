@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 
 export default function TopNav() {
   const { data: session } = useSession();
+  // console.log("session", session);
 
   return (
     <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-4 font-bold text-rose-800 backdrop-blur-sm">
@@ -21,6 +22,11 @@ export default function TopNav() {
       <div>
         <Link href="/products">Produits</Link>
       </div>
+      {session?.user?.role === "admin" && (
+        <div>
+          <Link href="/admin">Admin</Link>
+        </div>
+      )}
       <div className="flex items-center gap-2">
         {session ? (
           <>
@@ -30,7 +36,7 @@ export default function TopNav() {
         ) : (
           <>
             <SignIn />
-            <Avatar session={null} />
+            <Avatar session={session!} />
           </>
         )}
       </div>
