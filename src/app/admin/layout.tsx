@@ -1,18 +1,19 @@
-// "use client";
+"use client";
 // "use server";
 import { auth } from "auth";
-export default async function AdminLayout({
+import { useSession } from "next-auth/react";
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  // console.log("session", session);
-  if (session!.user?.role !== "admin")
+  const { data: session } = useSession();
+
+  if (!session || session.user!.role !== "admin") {
     return (
-      <div className="container mx-auto mt-16 flex items-center justify-center">
-        Tu n as pas le droit de venir ici!!!
+      <div className="container mx-auto flex min-h-screen items-center justify-center text-4xl">
+        <div>Y à rien a voir, circulez!!!</div>
       </div>
     );
-  else return <div className="container mx-auto">{children}</div>;
+  } else return <div className="container mx-auto">{children}</div>;
 }

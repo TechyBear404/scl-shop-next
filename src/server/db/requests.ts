@@ -5,9 +5,10 @@ import type { InferInsertModel } from "drizzle-orm";
 
 import { db } from "~/server/db";
 import { products } from "./schema/products";
+import { log } from "console";
 
 export interface UpdateProductType {
-  id: number;
+  id?: number;
   name?: string;
   catchPhrase?: string;
   desc?: string;
@@ -15,6 +16,32 @@ export interface UpdateProductType {
   imgUrl?: string;
   category?: number;
 }
+
+export const getProduct = cache(async (id: number) => {
+  try {
+    const product = await db.query.products.findMany({
+      where: eq(products.id, id),
+      columns: {
+        createdAt: false,
+        updatedAt: false,
+      },
+      with: {
+        category: {
+          columns: {
+            createdAt: false,
+            updatedAt: false,
+          },
+        },
+      },
+    });
+    console.log(product);
+
+    return product;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+});
 
 export const getProducts = cache(async () => {
   try {

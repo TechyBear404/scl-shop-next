@@ -1,33 +1,34 @@
 // export const dynamic = "force-dynamic";
-import { getProducts } from "~/server/db/requests";
-export default async function ProductsList() {
-  const products = await getProducts();
+// import { getProducts } from "~/server/db/requests";
+import ProductsListElem from "./productsListElem";
+import type { ProductType } from "~/server/db/requests";
+// import { Suspense } from "react";
+
+export default async function ProductsList({
+  products,
+}: {
+  products: ProductType[];
+}) {
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+  // const products = async () => {
+  //   return await getProducts();
+  //   // return setData("test");
+  // };
+
   return (
-    <div id="productsTable" className="mt-16 w-full">
-      <div className="border border-rose-800">
-        <div className=" border-b-2 border-rose-950">
-          <div className="grid grid-cols-5 bg-rose-950 p-2 font-semibold text-rose-50">
-            <div>Nom</div>
-            <div>Phrase d&apos;accroche</div>
-            <div>Description</div>
-            <div>Conseils</div>
-            <div>Image</div>
-          </div>
+    <div id="productsTable" className="mt-16 w-full ">
+      <div className=" rounded-md  border border-rose-800">
+        <div className="grid grid-cols-5 rounded-t-md bg-rose-950 p-2 font-semibold text-rose-50">
+          <div>Nom</div>
+          <div>Phrase d&apos;accroche</div>
+          <div>Description</div>
+          <div>Conseils</div>
+          <div>Image</div>
         </div>
-        <div>
+
+        <div className="">
           {products.map((product) => (
-            <div
-              key={product.id}
-              className="products-table grid grid-cols-5 odd:bg-white even:bg-rose-100 hover:cursor-pointer hover:border-white hover:bg-rose-400 hover:text-white"
-            >
-              <div className="" title={product.name}>
-                {product.name}
-              </div>
-              <div title={product.catchPhrase}>{product.catchPhrase}</div>
-              <div title={product.desc}>{product.desc}</div>
-              <div title={product.tips}>{product.tips}</div>
-              <div title={product.imgUrl}>{product.imgUrl}</div>
-            </div>
+            <ProductsListElem key={product.id} product={product} />
           ))}
         </div>
       </div>

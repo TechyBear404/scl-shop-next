@@ -15,7 +15,7 @@ export default function Avatar({ session }: { session: DefaultSession }) {
         />
       ) : (
         <span className="">
-          <FaUser title="avatar" className="h-[40px] w-[40px]" />
+          <FaUser title="avatar" className="h-[32px] w-[32px]" />
         </span>
       )}
     </figure>
