@@ -13,7 +13,7 @@ export default function ProductsListElem({
       // href={`?selected=${product.id}`}
       href={`?${new URLSearchParams({ selected: product.id.toString() }).toString()}`}
       key={product.id}
-      className="products-table grid grid-cols-5 last:rounded-b-md odd:bg-white even:bg-rose-100 hover:cursor-pointer hover:border-white hover:bg-rose-400 hover:text-white"
+      className="products-table grid grid-cols-5 last:rounded-b-md odd:bg-white even:bg-rose-100 hover:cursor-pointer hover:border-white hover:bg-rose-800 hover:text-white"
     >
       <div className="" title={product.name}>
         {product.name}

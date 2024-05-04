@@ -14,6 +14,7 @@ import {
 } from "~/server/db/schema/authSchema";
 import { PgTableFn, pgTable } from "drizzle-orm/pg-core";
 const pgTableHijack: PgTableFn = (name, columns, extraConfig) => {
+  (name: string) => `scl-shop-next_${name}`;
   switch (name) {
     case "user":
       return users;
