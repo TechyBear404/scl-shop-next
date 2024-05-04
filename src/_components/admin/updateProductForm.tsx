@@ -2,9 +2,11 @@
 // "use server";
 
 import { updateProduct } from "~/server/db/requests";
-import type { ProductType, UpdateProductType } from "~/server/db/requests";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+
+type ProductType = Doc<"products">;
 
 export default function ProductUpdateForm({
   products,

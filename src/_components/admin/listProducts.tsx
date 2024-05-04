@@ -1,7 +1,9 @@
 // export const dynamic = "force-dynamic";
 // import { getProducts } from "~/server/db/requests";
-import ProductsListElem from "./productsListElem";
-import type { ProductType } from "~/server/db/requests";
+import ProductsListElem from "./listProductsElem";
+import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+
+type ProductType = Doc<"products">;
 // import { Suspense } from "react";
 
 export default async function ProductsList({

@@ -1,9 +1,12 @@
-// "use client";
+import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+
+type ProductType = Doc<"products">;
 
 // export const dynamic = "force-dynamic";
 import { Suspense } from "react";
-import ProductsList from "~/_components/admin/productsList";
-import ProductUpdate from "~/_components/admin/productUpdate";
+import ProductsList from "~/_components/admin/listProducts";
+import ProductUpdate from "~/_components/admin/updateProduct";
+import CreateProduct from "~/_components/admin/createProduct";
 import { getProducts } from "~/server/db/requests";
 // import SelectedProductProvider from "~/utils/contexts/SelectedProductContext";
 const products = await getProducts();
@@ -17,7 +20,10 @@ export default async function AdminPage() {
       <Suspense fallback="Loading...">
         <ProductsList products={products} />
       </Suspense>
-      <ProductUpdate products={products} />
+      <section>
+        <ProductUpdate products={products} />
+        <CreateProduct />
+      </section>
       {/* </SelectedProductProvider> */}
     </main>
   );

@@ -17,7 +17,7 @@ import {
   verificationTokens,
 } from "./schema/authSchema";
 
-const schema = {
+export const schema = {
   products,
   productsRelations,
   benefits,

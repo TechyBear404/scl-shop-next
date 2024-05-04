@@ -15,7 +15,29 @@ html {
   font-size: 100%;
 }
 body {
-  @apply font-merriweather bg-rose-50 text-rose-990;
+  @apply bg-rose-50 font-merriweather text-rose-990;
+  /* margin-left: calc(100vw - 100%); */
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-rose-50;
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .products-table > div {

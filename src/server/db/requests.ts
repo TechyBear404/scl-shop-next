@@ -1,11 +1,12 @@
 "use server";
 import { cache } from "react";
 import { eq } from "drizzle-orm";
-import type { InferInsertModel } from "drizzle-orm";
 
 import { db } from "~/server/db";
 import { products } from "./schema/products";
-import { log } from "console";
+import type { Doc, DocInsert } from "./schema/dbTypes";
+
+type CreateProductType = DocInsert<"products">;
 
 export interface UpdateProductType {
   id?: number;
@@ -16,6 +17,30 @@ export interface UpdateProductType {
   imgUrl?: string;
   category?: number;
 }
+
+export const createProduct = async (formData: FormData) => {
+  const newProduct: CreateProductType = {
+    id: parseInt(formData.get("id") as string),
+    name: formData.get("name") as string,
+    catchPhrase: formData.get("catchPhrase") as string,
+    desc: formData.get("desc") as string,
+    tips: formData.get("tips") as string,
+    imgUrl: formData.get("imgUrl") as string,
+    category: parseInt(formData.get("category") as string),
+  };
+  console.log(newProduct);
+
+  // try {
+  //   const updatedProduct = await db
+  //     .update(products)
+  //     .set()
+  //     .where(eq(products.id, product.id))
+  //     .returning();
+  //   return updatedProduct;
+  // } catch (error) {
+  //   console.error(error);
+  // }
+};
 
 export const getProduct = cache(async (id: number) => {
   try {
@@ -90,7 +115,7 @@ export const updateProduct = async (formData: FormData) => {
   //   console.error(error);
   // }
 };
-export type ProductType = Awaited<ReturnType<typeof getProducts>>[0];
+export type GetProductsType = Awaited<ReturnType<typeof getProducts>>;
 
 export const getCategories = cache(async () => {
   try {
@@ -106,5 +131,3 @@ export const getCategories = cache(async () => {
     return [];
   }
 });
-
-export type CategoryType = Awaited<ReturnType<typeof getCategories>>[0];
