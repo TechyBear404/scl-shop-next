@@ -5,7 +5,7 @@ import ProductUpdateForm from "./updateProductForm";
 // import { useSelectedProductContext } from "~/utils/contexts/SelectedProductContext";
 // import type { ProductType } from "src/server/db/requests";
 
-export default function ProductUpdate({
+export default function UpdateProduct({
   products,
 }: {
   products: ProductType[];
@@ -15,10 +15,7 @@ export default function ProductUpdate({
   //   console.log(formData);
   // };
   return (
-    <div className="mt-16 rounded-md border border-rose-800">
-      <h2 className="bg-rose-950 p-2 text-2xl font-bold text-rose-50">
-        Mise à jour du produit
-      </h2>
+    <div className="">
       <ProductUpdateForm products={products} />
     </div>
   );

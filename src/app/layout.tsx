@@ -17,9 +17,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={` flex min-h-screen flex-col overflow-hidden overflow-y-auto `}
-      >
+      <body className={`flex min-h-screen flex-col `}>
         <SessionWrapper>
           <TopNav />
           {children}
