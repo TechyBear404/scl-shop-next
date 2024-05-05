@@ -5,6 +5,7 @@ import { updateProduct } from "~/server/db/requests";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+import WaitingButton from "./waitingButton";
 
 type ProductType = Doc<"products">;
 
@@ -30,12 +31,7 @@ export default function ProductUpdateForm({
     // return <div className="p-4">Sélectionnez un produit</div>;
   }
   return (
-    <form
-      action={async (formData) => {
-        await updateProduct(formData);
-      }}
-      className="flex flex-col gap-2 p-4"
-    >
+    <form action={updateProduct} className="flex flex-col gap-2 p-4">
       <div>
         <input
           type="hidden"
@@ -106,12 +102,7 @@ export default function ProductUpdateForm({
         />
       </div>
       <div>
-        <button
-          type="submit"
-          className="mt-8 rounded bg-rose-800 px-4 py-2 font-bold text-white"
-        >
-          Mettre à jour
-        </button>
+        <WaitingButton okText="Modifier" waitingText="En cours..." />
       </div>
     </form>
   );

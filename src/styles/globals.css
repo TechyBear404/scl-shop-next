@@ -41,5 +41,5 @@ body {
 }
 
 .products-table > div {
-  @apply overflow-hidden overflow-ellipsis whitespace-nowrap p-1;
+  @apply truncate p-1;
 }

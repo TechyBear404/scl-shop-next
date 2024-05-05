@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
 import { products } from "./schema/products";
 import type { Doc, DocInsert } from "./schema/dbTypes";
+import { revalidatePath } from "next/cache";
 
 type CreateProductType = DocInsert<"products">;
 
@@ -17,30 +18,6 @@ export interface UpdateProductType {
   imgUrl?: string;
   category?: number;
 }
-
-export const createProduct = async (formData: FormData) => {
-  const newProduct: CreateProductType = {
-    id: parseInt(formData.get("id") as string),
-    name: formData.get("name") as string,
-    catchPhrase: formData.get("catchPhrase") as string,
-    desc: formData.get("desc") as string,
-    tips: formData.get("tips") as string,
-    imgUrl: formData.get("imgUrl") as string,
-    category: parseInt(formData.get("category") as string),
-  };
-  console.log(newProduct);
-
-  // try {
-  //   const updatedProduct = await db
-  //     .update(products)
-  //     .set()
-  //     .where(eq(products.id, product.id))
-  //     .returning();
-  //   return updatedProduct;
-  // } catch (error) {
-  //   console.error(error);
-  // }
-};
 
 export const getProduct = cache(async (id: number) => {
   try {
@@ -92,6 +69,33 @@ export const getProducts = cache(async () => {
   }
 });
 
+export const createProduct = async (formData: FormData) => {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+  const newProduct: CreateProductType = {
+    name: formData.get("name") as string,
+    catchPhrase: formData.get("catchPhrase") as string,
+    desc: formData.get("desc") as string,
+    tips: formData.get("tips") as string,
+    imgUrl: formData.get("imgUrl") as string,
+    category: parseInt(formData.get("category") as string),
+  };
+
+  revalidatePath("/admin");
+  revalidatePath("/products");
+  console.log(newProduct);
+
+  // try {
+  //   const updatedProduct = await db
+  //     .update(products)
+  //     .set()
+  //     .where(eq(products.id, product.id))
+  //     .returning();
+  //   return updatedProduct;
+  // } catch (error) {
+  //   console.error(error);
+  // }
+};
+
 export const updateProduct = async (formData: FormData) => {
   const product: UpdateProductType = {
     id: parseInt(formData.get("id") as string),
@@ -103,6 +107,9 @@ export const updateProduct = async (formData: FormData) => {
     category: parseInt(formData.get("category") as string),
   };
   console.log(product);
+
+  revalidatePath("/admin");
+  revalidatePath("/products");
 
   // try {
   //   const updatedProduct = await db

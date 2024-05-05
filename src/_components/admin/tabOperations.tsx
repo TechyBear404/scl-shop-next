@@ -6,11 +6,14 @@ import { useState } from "react";
 import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
 
 type ProductType = Doc<"products">;
+type CategoryType = Doc<"categories">;
 
 export default function TabOperations({
   products,
+  categories,
 }: {
   products: ProductType[];
+  categories: CategoryType[];
 }) {
   const [activeTab, setActiveTab] = useState(1);
 
@@ -31,8 +34,10 @@ export default function TabOperations({
         </button>
       </div>
       <div className="rounded-b-md border border-t-0 border-rose-800">
-        {activeTab === 1 && <CreateProduct />}
-        {activeTab === 2 && <UpdateProduct products={products} />}
+        {activeTab === 1 && <CreateProduct categories={categories} />}
+        {activeTab === 2 && (
+          <UpdateProduct products={products} categories={categories} />
+        )}
       </div>
     </div>
   );

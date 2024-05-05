@@ -27,8 +27,9 @@ type Props = {
 };
 export default function ProductProvider({ children }: Props) {
   const [selectedProduct, setSelectedProduct] = useState({});
+
   return (
-    <ProductContext.Provider value={[selectedProduct, setSelectedProduct]}>
+    <ProductContext.Provider value={{ selectedProduct, setSelectedProduct }}>
       {children}
     </ProductContext.Provider>
   );

@@ -3,17 +3,25 @@
 
 import { createProduct } from "~/server/db/requests";
 import type { ProductType } from "~/server/db/requests";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+import { revalidatePath } from "next/cache";
+
+import WaitingButton from "./waitingButton";
+import SelectCategory from "./selectCategory";
 
 type ProductType = Doc<"products">;
 
 export default function CreateProductForm() {
   const [newProduct, setNewProduct] = useState<ProductType>();
+  const ref = useRef<HTMLFormElement>(null);
 
   return (
     <form
+      ref={ref}
       action={async (formData) => {
+        ref.current?.reset();
+        // input validation
         await createProduct(formData);
       }}
       className="flex flex-col gap-2 p-4"
@@ -81,13 +89,9 @@ export default function CreateProductForm() {
           className="w-full"
         />
       </div>
+      <SelectCategory />
       <div>
-        <button
-          type="submit"
-          className="mt-8 rounded bg-rose-800 px-4 py-2 font-bold text-white"
-        >
-          Mettre à jour
-        </button>
+        <WaitingButton okText="Créer" waitingText="En cours..." />
       </div>
     </form>
   );

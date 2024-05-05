@@ -23,7 +23,7 @@ export default function TopNav() {
         href="/"
         className={`${isActive("/") ? "scale-105 font-extrabold " : ""}`}
       >
-        Acceuil
+        Accueil
       </Link>
       <Link
         href="/products"

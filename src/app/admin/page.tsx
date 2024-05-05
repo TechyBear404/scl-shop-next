@@ -5,10 +5,11 @@ type ProductType = Doc<"products">;
 // export const dynamic = "force-dynamic";
 import { Suspense } from "react";
 import ProductsList from "~/_components/admin/listProducts";
-import { getProducts } from "~/server/db/requests";
+import { getProducts, getCategories } from "~/server/db/requests";
 import TabOperations from "~/_components/admin/tabOperations";
 // import SelectedProductProvider from "~/utils/contexts/SelectedProductContext";
 const products = await getProducts();
+const categories = await getCategories();
 export default function AdminPage() {
   return (
     <main
@@ -19,7 +20,7 @@ export default function AdminPage() {
       <Suspense fallback="Loading...">
         <ProductsList products={products} />
       </Suspense>
-      <TabOperations products={products} />
+      <TabOperations products={products} categories={categories} />
       {/* </SelectedProductProvider> */}
     </main>
   );
