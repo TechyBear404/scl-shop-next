@@ -6,14 +6,15 @@ import type {
   CategoriesType,
 } from "~/server/db/requests";
 import ProductsListElem from "./listProductsElem";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { getProducts, getCategories } from "~/server/db/requests";
 import { revalidatePath } from "next/cache";
 // import { Suspense } from "react";
-import { DataContext } from "~/utils/contexts/dataContext";
-import type { DataContextType } from "~/utils/contexts/dataContext";
+import { useDataContext } from "~/utils/contexts/dataContext";
+// import type { DataContextType } from "~/utils/contexts/dataContext";
 export default function ProductsList() {
-  const { state, dispatch } = useContext<DataContextType>(DataContext);
+  // const { state, dispatch } = useContext<DataContextType>(DataContext);
+  const { state, dispatch } = useDataContext();
 
   useEffect(() => {
     const fetchProducts = async () => {

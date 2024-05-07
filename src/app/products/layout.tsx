@@ -15,7 +15,7 @@ export default async function RootLayout({
   const categories = await getCategories();
 
   return (
-    <div className="flex">
+    <div className="m-auto flex max-w-[1280px] justify-center">
       <ProductNav categories={categories} test={test} />
       {children}
       <ProductDetails />

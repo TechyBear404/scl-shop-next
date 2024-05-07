@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import ProductsList from "~/_components/admin/listProducts";
 import TabOperations from "~/_components/admin/tabOperations";
 import { DataProvider } from "~/utils/contexts/dataContext";
+// import { useDataContext } from "~/utils/contexts/dataContext";
 
 export default function AdminPage() {
   return (

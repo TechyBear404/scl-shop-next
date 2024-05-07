@@ -19,7 +19,7 @@ type CreateProductType = DocInsert<"products">;
 //   category?: number;
 // }
 
-export const getProduct = cache(async (id: number) => {
+export const getProduct = async (id: number) => {
   try {
     const product = await db.query.products.findMany({
       where: eq(products.id, id),
@@ -43,9 +43,9 @@ export const getProduct = cache(async (id: number) => {
     console.error(error);
     return {};
   }
-});
+};
 
-export const getProducts = cache(async () => {
+export const getProducts = async () => {
   try {
     const products = await db.query.products.findMany({
       columns: {
@@ -67,11 +67,13 @@ export const getProducts = cache(async () => {
     console.error(error);
     return [];
   }
-});
+};
+
+type NewProduct = typeof products.$inferInsert;
 
 export const createProduct = async (formData: FormData) => {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-  const newProduct: CreateProductType = {
+  // await new Promise((resolve) => setTimeout(resolve, 5000));
+  const newProduct: NewProduct = {
     name: formData.get("name") as string,
     catchPhrase: formData.get("catchPhrase") as string,
     desc: formData.get("desc") as string,
@@ -80,20 +82,18 @@ export const createProduct = async (formData: FormData) => {
     category: parseInt(formData.get("category") as string),
   };
 
-  revalidatePath("/admin");
-  revalidatePath("/products");
+  // revalidatePath("/products");
   console.log(newProduct);
 
-  // try {
-  //   const updatedProduct = await db
-  //     .update(products)
-  //     .set()
-  //     .where(eq(products.id, product.id))
-  //     .returning();
-  //   return updatedProduct;
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  try {
+    await db.insert(products).values(newProduct).returning();
+    // const insertProduct = async () => {
+    //   return await db.insert(products).values(newProduct).returning();
+    // }
+  } catch (error) {
+    console.error(error);
+  }
+  revalidatePath("/");
 };
 export type ProductsType = Awaited<ReturnType<typeof getProducts>>;
 export type ProductType = ProductsType extends (infer ElementType)[]
@@ -127,7 +127,7 @@ export const updateProduct = async (formData: FormData) => {
   revalidatePath("/products");
 };
 
-export const getCategories = cache(async () => {
+export const getCategories = async () => {
   try {
     const categories = await db.query.categories.findMany({
       columns: {
@@ -140,7 +140,7 @@ export const getCategories = cache(async () => {
     console.error(error);
     return [];
   }
-});
+};
 
 export type CategoriesType = Awaited<ReturnType<typeof getCategories>>;
 export type CategoryType = CategoriesType extends (infer ElementType)[]

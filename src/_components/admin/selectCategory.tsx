@@ -1,16 +1,14 @@
 // "use client";
 import { useContext } from "react";
 import type { CategoriesType, CategoryType } from "~/server/db/requests";
-
-import { DataContext } from "~/utils/contexts/dataContext";
-import type { DataContextType } from "~/utils/contexts/dataContext";
+import { useDataContext } from "~/utils/contexts/dataContext";
 
 export default function SelectCategory({
   currentCategory,
 }: {
   currentCategory: CategoryType;
 }) {
-  const { state, dispatch } = useContext<DataContextType>(DataContext);
+  const { state, dispatch } = useDataContext();
   return (
     <div className="flex flex-col">
       <label htmlFor="category">Catégorie</label>

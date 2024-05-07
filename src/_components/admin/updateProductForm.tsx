@@ -18,12 +18,13 @@ export default function ProductUpdateForm() {
   const params = useSearchParams();
   const selected = params.get("selected");
 
-  const product: ProductType | undefined = state.products.find(
-    (product) => product.id === Number(selected),
-  );
+  // const product: ProductType | undefined = state.products.find(
+  //   (product) => product.id === Number(selected),
+  // );
   useEffect(() => {
-    setEditedProduct(product);
-  }, [product]);
+    dispatch({ type: "GET_PRODUCT", payload: Number(selected) });
+    setEditedProduct(state.selectedProduct);
+  }, [dispatch, selected, state.selectedProduct]);
 
   return (
     <form
