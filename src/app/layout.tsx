@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 import TopNav from "~/_components/top-nav";
 import SessionWrapper from "~/utils/contexts/SessionWrapper";
-import ProductProvider from "~/utils/contexts/SelectedProductContext";
+// import ProductProvider from "~/utils/contexts/SelectedProductContext";
 
 import { Inter, Merriweather } from "next/font/google";
 
@@ -20,10 +20,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`flex min-h-screen flex-col `}>
         <SessionWrapper>
-          <ProductProvider>
-            <TopNav />
-            {children}
-          </ProductProvider>
+          {/* <ProductProvider> */}
+          <TopNav />
+          {children}
+          {/* </ProductProvider> */}
         </SessionWrapper>
       </body>
     </html>

@@ -2,15 +2,15 @@
 // "use server";
 
 import { createProduct } from "~/server/db/requests";
-import type { ProductType } from "~/server/db/requests";
 import { useRef, useState } from "react";
-import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+import type { ProductType, CategoriesType } from "~/server/db/requests";
+// import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
 import { revalidatePath } from "next/cache";
 
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
 
-type ProductType = Doc<"products">;
+// type ProductType = Doc<"products">;
 
 export default function CreateProductForm() {
   const [newProduct, setNewProduct] = useState<ProductType>();

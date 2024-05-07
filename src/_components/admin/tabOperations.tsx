@@ -2,20 +2,19 @@
 
 import UpdateProduct from "~/_components/admin/updateProduct";
 import CreateProduct from "~/_components/admin/createProduct";
-import { useState } from "react";
-import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
-type ProductType = Doc<"products">;
-type CategoryType = Doc<"categories">;
-
-export default function TabOperations({
-  products,
-  categories,
-}: {
-  products: ProductType[];
-  categories: CategoryType[];
-}) {
+export default function TabOperations() {
   const [activeTab, setActiveTab] = useState(1);
+  const params = useSearchParams();
+  const selected = params.get("selected");
+
+  useEffect(() => {
+    if (selected) {
+      setActiveTab(2);
+    }
+  }, [selected]);
 
   return (
     <div className="mt-16 flex flex-col rounded-md">
@@ -34,10 +33,8 @@ export default function TabOperations({
         </button>
       </div>
       <div className="rounded-b-md border border-t-0 border-rose-800">
-        {activeTab === 1 && <CreateProduct categories={categories} />}
-        {activeTab === 2 && (
-          <UpdateProduct products={products} categories={categories} />
-        )}
+        {activeTab === 1 && <CreateProduct />}
+        {activeTab === 2 && <UpdateProduct />}
       </div>
     </div>
   );

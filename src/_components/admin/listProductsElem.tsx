@@ -1,8 +1,6 @@
 // "use client";
 import Link from "next/link";
-import type { Doc } from "~/server/db/schema/dbTypes";
-
-type ProductType = Doc<"products">;
+import type { ProductType } from "~/server/db/requests";
 export default function ProductsListElem({
   product,
 }: {

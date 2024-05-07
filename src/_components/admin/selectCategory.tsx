@@ -1,23 +1,34 @@
-import { useEffect } from "react";
-import { getCategories } from "~/server/db/requests";
-import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+// "use client";
+import { useContext } from "react";
+import type { CategoriesType, CategoryType } from "~/server/db/requests";
 
-// const categories = await getCategories();
+import { DataContext } from "~/utils/contexts/dataContext";
+import type { DataContextType } from "~/utils/contexts/dataContext";
 
-type CategoryType = Doc<"categories">;
-
-export default function SelectCategory() {
-  // const categories = await getCategories();
+export default function SelectCategory({
+  currentCategory,
+}: {
+  currentCategory: CategoryType;
+}) {
+  const { state, dispatch } = useContext<DataContextType>(DataContext);
   return (
     <div className="flex flex-col">
       <label htmlFor="category">Catégorie</label>
-      {/* <select name="category" id="category" className="h-6 bg-white">
-        {categories.map((category) => (
+      <select
+        name="category"
+        id="category"
+        className="h-6 bg-white"
+        value={currentCategory?.id ? currentCategory.id : 1}
+        onChange={(e) => {
+          // setEditedProduct({ ...editedProduct, name: e.target.value });
+        }}
+      >
+        {state.categories.map((category) => (
           <option key={category?.id} value={category?.id}>
             {category?.name}
           </option>
         ))}
-      </select> */}
+      </select>
     </div>
   );
 }

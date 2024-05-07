@@ -1,21 +1,54 @@
-// export const dynamic = "force-dynamic";
-// import { getProducts } from "~/server/db/requests";
+"use client";
+export const dynamic = "force-dynamic";
+import type {
+  ProductsType,
+  ProductType,
+  CategoriesType,
+} from "~/server/db/requests";
 import ProductsListElem from "./listProductsElem";
-import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
-
-type ProductType = Doc<"products">;
+import { useContext, useEffect } from "react";
+import { getProducts, getCategories } from "~/server/db/requests";
+import { revalidatePath } from "next/cache";
 // import { Suspense } from "react";
+import { DataContext } from "~/utils/contexts/dataContext";
+import type { DataContextType } from "~/utils/contexts/dataContext";
+export default function ProductsList() {
+  const { state, dispatch } = useContext<DataContextType>(DataContext);
 
-export default async function ProductsList({
-  products,
-}: {
-  products: ProductType[];
-}) {
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
-  // const products = async () => {
-  //   return await getProducts();
-  //   // return setData("test");
-  // };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const cachedProducts = localStorage.getItem("products");
+      if (cachedProducts) {
+        dispatch({
+          type: "SET_PRODUCTS",
+          payload: JSON.parse(cachedProducts) as ProductsType,
+        });
+      }
+      const cachedCategories = localStorage.getItem("categories");
+      if (cachedCategories) {
+        dispatch({
+          type: "SET_CATEGORIES",
+          payload: JSON.parse(cachedCategories) as CategoriesType,
+        });
+      }
+
+      const products = await getProducts();
+      dispatch({
+        type: "SET_PRODUCTS",
+        payload: products,
+      });
+      localStorage.setItem("products", JSON.stringify(products));
+
+      const categories = await getCategories();
+      dispatch({
+        type: "SET_CATEGORIES",
+        payload: categories,
+      });
+      localStorage.setItem("categories", JSON.stringify(categories));
+      // revalidatePath("/admin");
+    };
+    void fetchProducts();
+  }, [dispatch]);
 
   return (
     <div id="productsTable" className="mt-16 w-full ">
@@ -29,7 +62,7 @@ export default async function ProductsList({
         </div>
 
         <div className="">
-          {products.map((product) => (
+          {state.products.map((product: ProductType) => (
             <ProductsListElem key={product.id} product={product} />
           ))}
         </div>

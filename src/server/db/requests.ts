@@ -9,15 +9,15 @@ import { revalidatePath } from "next/cache";
 
 type CreateProductType = DocInsert<"products">;
 
-export interface UpdateProductType {
-  id?: number;
-  name?: string;
-  catchPhrase?: string;
-  desc?: string;
-  tips?: string;
-  imgUrl?: string;
-  category?: number;
-}
+// export interface UpdateProductType {
+//   id?: number;
+//   name?: string;
+//   catchPhrase?: string;
+//   desc?: string;
+//   tips?: string;
+//   imgUrl?: string;
+//   category?: number;
+// }
 
 export const getProduct = cache(async (id: number) => {
   try {
@@ -95,34 +95,37 @@ export const createProduct = async (formData: FormData) => {
   //   console.error(error);
   // }
 };
+export type ProductsType = Awaited<ReturnType<typeof getProducts>>;
+export type ProductType = ProductsType extends (infer ElementType)[]
+  ? ElementType
+  : never;
 
 export const updateProduct = async (formData: FormData) => {
-  const product: UpdateProductType = {
+  const product = {
     id: parseInt(formData.get("id") as string),
     name: formData.get("name") as string,
     catchPhrase: formData.get("catchPhrase") as string,
     desc: formData.get("desc") as string,
     tips: formData.get("tips") as string,
     imgUrl: formData.get("imgUrl") as string,
-    category: parseInt(formData.get("category") as string),
+    category: formData.get("category")
+      ? parseInt(formData.get("category") as string)
+      : null,
   };
-  console.log(product);
 
-  revalidatePath("/admin");
+  try {
+    const updatedProduct = await db
+      .update(products)
+      .set(product)
+      .where(eq(products.id, product.id))
+      .returning();
+    return updatedProduct;
+  } catch (error) {
+    console.error(error);
+  }
+  revalidatePath("/admin", "page");
   revalidatePath("/products");
-
-  // try {
-  //   const updatedProduct = await db
-  //     .update(products)
-  //     .set()
-  //     .where(eq(products.id, product.id))
-  //     .returning();
-  //   return updatedProduct;
-  // } catch (error) {
-  //   console.error(error);
-  // }
 };
-export type GetProductsType = Awaited<ReturnType<typeof getProducts>>;
 
 export const getCategories = cache(async () => {
   try {
@@ -138,3 +141,8 @@ export const getCategories = cache(async () => {
     return [];
   }
 });
+
+export type CategoriesType = Awaited<ReturnType<typeof getCategories>>;
+export type CategoryType = CategoriesType extends (infer ElementType)[]
+  ? ElementType
+  : never;

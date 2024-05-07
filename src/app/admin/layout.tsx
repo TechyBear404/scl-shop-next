@@ -1,6 +1,6 @@
 "use client";
 // "use server";
-import { auth } from "auth";
+// import { auth } from "auth";
 import { useSession } from "next-auth/react";
 export default function AdminLayout({
   children,
@@ -15,5 +15,5 @@ export default function AdminLayout({
         <div>Y à rien a voir, circulez!!!</div>
       </div>
     );
-  } else return <div className="container mx-auto">{children}</div>;
+  } else return <div className="mx-auto max-w-[1280px]">{children}</div>;
 }

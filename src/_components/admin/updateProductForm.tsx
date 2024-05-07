@@ -3,35 +3,36 @@
 
 import { updateProduct } from "~/server/db/requests";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
+import { useState, useEffect, useContext } from "react";
+import type { ProductType } from "~/server/db/requests";
+
 import WaitingButton from "./waitingButton";
+import SelectCategory from "./selectCategory";
 
-type ProductType = Doc<"products">;
+import { DataContext } from "~/utils/contexts/dataContext";
+import type { DataContextType } from "~/utils/contexts/dataContext";
 
-export default function ProductUpdateForm({
-  products,
-}: {
-  products: ProductType[];
-}) {
+export default function ProductUpdateForm() {
   const [editedProduct, setEditedProduct] = useState<ProductType>();
+  const { state, dispatch } = useContext<DataContextType>(DataContext);
   const params = useSearchParams();
   const selected = params.get("selected");
 
-  const product: ProductType | undefined = products.find(
+  const product: ProductType | undefined = state.products.find(
     (product) => product.id === Number(selected),
   );
-
   useEffect(() => {
     setEditedProduct(product);
   }, [product]);
-  // console.log(products);
-  // console.log(params.selected);
-  if (params && product) {
-    // return <div className="p-4">Sélectionnez un produit</div>;
-  }
+
   return (
-    <form action={updateProduct} className="flex flex-col gap-2 p-4">
+    <form
+      action={
+        updateProduct
+        // revalidatePath("/admin", "page");
+      }
+      className="flex flex-col gap-2 p-4"
+    >
       <div>
         <input
           type="hidden"
@@ -101,6 +102,7 @@ export default function ProductUpdateForm({
           className="w-full"
         />
       </div>
+      <SelectCategory currentCategory={editedProduct?.category} />
       <div>
         <WaitingButton okText="Modifier" waitingText="En cours..." />
       </div>
