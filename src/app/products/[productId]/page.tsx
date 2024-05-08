@@ -12,8 +12,8 @@ export default async function ProductDetails({
     Number(params.productId),
   );
   return (
-    <main className=" mx-auto min-h-screen  max-w-3xl grow pt-10 ">
-      <article className="grid grid-cols-2">
+    <main className="min-h-screen grow pt-10 md:ml-60 ">
+      <article className="mx-auto grid max-w-3xl grid-cols-2">
         <figure>
           <Image
             className="aspect-[3/4]"

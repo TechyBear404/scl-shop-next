@@ -17,7 +17,7 @@ export default function TabOperations() {
   }, [selected]);
 
   return (
-    <div className="mt-16 flex flex-col rounded-md">
+    <div className="flex flex-col rounded-md">
       <div className="flex justify-between  text-2xl font-bold text-rose-50 ">
         <button
           className={`${activeTab === 1 ? "border-rose-800 bg-rose-800" : "mt-1 border-rose-950 border-b-rose-100/50 bg-rose-950 text-rose-50/50"} grow rounded-t-md border-2 p-2 transition duration-200 ease-in-out`}

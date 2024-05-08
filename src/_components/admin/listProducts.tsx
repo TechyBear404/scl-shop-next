@@ -15,7 +15,7 @@ export default function ProductsList() {
   const { state, dispatch } = useDataContext();
 
   return (
-    <div id="productsTable" className="mt-16 w-full ">
+    <div id="productsTable" className="w-full ">
       <div className=" rounded-md  border border-rose-800">
         <div className="grid grid-cols-5 rounded-t-md bg-rose-950 p-2 font-semibold text-rose-50">
           <div>Nom</div>

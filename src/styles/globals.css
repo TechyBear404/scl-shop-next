@@ -43,3 +43,7 @@ body {
 .products-table > div {
   @apply truncate p-1;
 }
+
+main#contactPage label {
+  @apply pl-2;
+}
