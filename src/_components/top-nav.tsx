@@ -17,7 +17,7 @@ export default function TopNav() {
 
   return (
     <header>
-      <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-4 font-bold text-rose-800 backdrop-blur-sm ">
+      <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-2 font-bold text-rose-800 backdrop-blur-sm ">
         <div className="text-2xl font-bold">Candle</div>
         <div className="flex-grow"></div>
         <Link
