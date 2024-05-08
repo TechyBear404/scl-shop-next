@@ -4,18 +4,18 @@ import { FaUser } from "react-icons/fa";
 
 export default function Avatar({ session }: { session: DefaultSession }) {
   return (
-    <figure className="overflow-hidden rounded-full border-2 border-white">
+    <figure className="h-9 w-9 overflow-hidden rounded-full border-2 border-white">
       {session ? (
         <Image
           src={session.user!.image!}
           alt={session.user!.name!}
           title={session.user!.name!}
-          width={32}
-          height={32}
+          width={50}
+          height={50}
         />
       ) : (
         <span className="">
-          <FaUser title="avatar" className="h-[32px] w-[32px]" />
+          <FaUser title="avatar" className="" />
         </span>
       )}
     </figure>

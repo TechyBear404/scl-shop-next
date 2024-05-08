@@ -9,10 +9,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto mt-16 flex min-h-screen max-w-7xl gap-6">
+    <div className="mt-12 min-h-screen ">
       <ProductNav />
       {children}
-      <ProductDetails />
+      {/* <ProductDetails /> */}
     </div>
   );
 }

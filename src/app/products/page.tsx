@@ -11,17 +11,13 @@ export default async function HomePage({
   let products;
   if (searchParams?.category) {
     products = await getProducts(Number(searchParams.category));
-    // console.log(searchParams.category);
   } else {
     products = await getProducts();
   }
-  // const date = new Date(Date.now());
-  // console.log("new products " + date.toISOString());
-  // console.log(products);
+
   return (
-    <main className="flex w-full">
-      <ProductDetails />
-      <section className="mt-6 grid grid-cols-1 content-start justify-center justify-items-center gap-6 scroll-auto md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <main className="p-6 md:ml-60">
+      <section className="flex flex-wrap  justify-center gap-6">
         {products.map((product) => (
           <ProductCard product={product} key={product.id} />
         ))}

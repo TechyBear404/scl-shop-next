@@ -11,8 +11,8 @@ import {
 
 export default function Footer() {
   return (
-    <footer className=" bg-rose-800 p-6 text-rose-50">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-6">
+    <footer className="z-20 bg-rose-800 p-6 text-rose-50">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6">
         <section className="flex items-center justify-center gap-6 text-4xl">
           <Link href="">
             <FaLinkedin />

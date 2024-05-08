@@ -1,22 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import {
-  getCategories,
-  type CategoryType,
-  type CategoriesType,
-} from "~/server/db/requests";
 import { IoMdArrowDropright } from "react-icons/io";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useDataContext } from "~/utils/contexts/dataContext";
+
 export default function ProductNav() {
   const { state, dispatch } = useDataContext();
   const params = useSearchParams();
   const selectedCategory = params.get("category");
 
   return (
-    <nav className="hidden flex-col items-start justify-start bg-white p-4 md:flex ">
+    <nav className="fixed left-0 hidden h-full w-60 flex-col items-start justify-start bg-white p-4 md:flex">
       <Link
         href="/products"
         className={`${selectedCategory === null ? "font-bold" : ""} flex items-center text-nowrap`}
