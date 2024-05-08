@@ -6,7 +6,7 @@ import { useDataContext } from "~/utils/contexts/dataContext";
 export default function SelectCategory({
   currentCategory,
 }: {
-  currentCategory: CategoryType;
+  currentCategory?: CategoryType;
 }) {
   const { state, dispatch } = useDataContext();
   return (
@@ -21,7 +21,7 @@ export default function SelectCategory({
           // setEditedProduct({ ...editedProduct, name: e.target.value });
         }}
       >
-        {state.categories.map((category) => (
+        {state?.categories?.map((category) => (
           <option key={category?.id} value={category?.id}>
             {category?.name}
           </option>

@@ -16,42 +16,44 @@ export default function TopNav() {
   // console.log("session", session);
 
   return (
-    <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-4 font-bold text-rose-800 backdrop-blur-sm ">
-      <div className="text-2xl font-bold">Candle</div>
-      <div className="flex-grow"></div>
-      <Link
-        href="/"
-        className={`${isActive("/") ? "scale-105 font-extrabold " : ""}`}
-      >
-        Accueil
-      </Link>
-      <Link
-        href="/products"
-        className={`${isActive("/products") ? "scale-105 font-extrabold " : ""}`}
-      >
-        Produits
-      </Link>
-      {session?.user?.role === "admin" && (
+    <header>
+      <nav className=" fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-4 font-bold text-rose-800 backdrop-blur-sm ">
+        <div className="text-2xl font-bold">Candle</div>
+        <div className="flex-grow"></div>
         <Link
-          href="/admin"
-          className={`${isActive("/admin") ? "scale-105 font-extrabold " : ""}`}
+          href="/"
+          className={`${isActive("/") ? "scale-105 font-extrabold " : ""}`}
         >
-          Admin
+          Accueil
         </Link>
-      )}
-      <div className="flex items-center gap-2">
-        {session ? (
-          <>
-            <SignOut />
-            <Avatar session={session} />
-          </>
-        ) : (
-          <>
-            <SignIn />
-            <Avatar session={session!} />
-          </>
+        <Link
+          href="/products"
+          className={`${isActive("/products") ? "scale-105 font-extrabold " : ""}`}
+        >
+          Produits
+        </Link>
+        {session?.user?.role === "admin" && (
+          <Link
+            href="/admin"
+            className={`${isActive("/admin") ? "scale-105 font-extrabold " : ""}`}
+          >
+            Admin
+          </Link>
         )}
-      </div>
-    </nav>
+        <div className="flex items-center gap-2">
+          {session ? (
+            <>
+              <SignOut />
+              <Avatar session={session} />
+            </>
+          ) : (
+            <>
+              <SignIn />
+              <Avatar session={session!} />
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
   );
 }

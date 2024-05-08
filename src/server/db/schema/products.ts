@@ -21,6 +21,7 @@ export const products = createTable("product", {
   desc: varchar("desc", { length: 1024 }).notNull(),
   tips: varchar("tips", { length: 512 }).notNull(),
   imgUrl: varchar("imgUrl", { length: 1024 }).notNull(),
+  price: integer("price").default(0).notNull(),
   category: integer("catID").references(() => categories.id),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)

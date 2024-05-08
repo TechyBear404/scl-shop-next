@@ -16,40 +16,40 @@ export default function ProductsList() {
   // const { state, dispatch } = useContext<DataContextType>(DataContext);
   const { state, dispatch } = useDataContext();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const cachedProducts = localStorage.getItem("products");
-      if (cachedProducts) {
-        dispatch({
-          type: "SET_PRODUCTS",
-          payload: JSON.parse(cachedProducts) as ProductsType,
-        });
-      }
-      const cachedCategories = localStorage.getItem("categories");
-      if (cachedCategories) {
-        dispatch({
-          type: "SET_CATEGORIES",
-          payload: JSON.parse(cachedCategories) as CategoriesType,
-        });
-      }
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const cachedProducts = localStorage.getItem("products");
+  //     if (cachedProducts) {
+  //       dispatch({
+  //         type: "SET_PRODUCTS",
+  //         payload: JSON.parse(cachedProducts) as ProductsType,
+  //       });
+  //     }
+  //     const cachedCategories = localStorage.getItem("categories");
+  //     if (cachedCategories) {
+  //       dispatch({
+  //         type: "SET_CATEGORIES",
+  //         payload: JSON.parse(cachedCategories) as CategoriesType,
+  //       });
+  //     }
 
-      const products = await getProducts();
-      dispatch({
-        type: "SET_PRODUCTS",
-        payload: products,
-      });
-      localStorage.setItem("products", JSON.stringify(products));
+  //     const products = await getProducts();
+  //     dispatch({
+  //       type: "SET_PRODUCTS",
+  //       payload: products,
+  //     });
+  //     localStorage.setItem("products", JSON.stringify(products));
 
-      const categories = await getCategories();
-      dispatch({
-        type: "SET_CATEGORIES",
-        payload: categories,
-      });
-      localStorage.setItem("categories", JSON.stringify(categories));
-      // revalidatePath("/admin");
-    };
-    void fetchProducts();
-  }, [dispatch]);
+  //     const categories = await getCategories();
+  //     dispatch({
+  //       type: "SET_CATEGORIES",
+  //       payload: categories,
+  //     });
+  //     localStorage.setItem("categories", JSON.stringify(categories));
+  //     // revalidatePath("/admin");
+  //   };
+  //   void fetchProducts();
+  // }, [dispatch]);
 
   return (
     <div id="productsTable" className="mt-16 w-full ">
@@ -63,9 +63,11 @@ export default function ProductsList() {
         </div>
 
         <div className="">
-          {state.products.map((product: ProductType) => (
-            <ProductsListElem key={product.id} product={product} />
-          ))}
+          {state.products
+            ? state.products.map((product: ProductType) => (
+                <ProductsListElem key={product.id} product={product} />
+              ))
+            : "Loading..."}
         </div>
       </div>
     </div>

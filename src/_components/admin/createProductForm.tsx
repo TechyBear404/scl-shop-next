@@ -39,6 +39,7 @@ export default function CreateProductForm() {
           className="w-full"
         />
       </div>
+
       <div>
         <label htmlFor="catchPhrase">Phrase d&apos;accroche</label>
         <input
@@ -86,6 +87,22 @@ export default function CreateProductForm() {
             setNewProduct({ ...newProduct, imgUrl: e.target.value });
           }}
           name="imgUrl"
+          className="w-full"
+        />
+      </div>
+      <div>
+        <label htmlFor="price">Prix</label>
+        <input
+          type="number"
+          id="price"
+          value={newProduct?.price ?? ""}
+          onChange={(e) => {
+            setNewProduct({
+              ...newProduct,
+              price: e.target.value,
+            });
+          }}
+          name="price"
           className="w-full"
         />
       </div>

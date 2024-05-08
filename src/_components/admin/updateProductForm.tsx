@@ -9,12 +9,11 @@ import type { ProductType } from "~/server/db/requests";
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
 
-import { DataContext } from "~/utils/contexts/dataContext";
-import type { DataContextType } from "~/utils/contexts/dataContext";
+import { useDataContext } from "~/utils/contexts/dataContext";
 
 export default function ProductUpdateForm() {
   const [editedProduct, setEditedProduct] = useState<ProductType>();
-  const { state, dispatch } = useContext<DataContextType>(DataContext);
+  const { state, dispatch } = useDataContext();
   const params = useSearchParams();
   const selected = params.get("selected");
 
@@ -66,6 +65,7 @@ export default function ProductUpdateForm() {
           className="w-full"
         />
       </div>
+
       <div>
         <label htmlFor="desc">Description</label>
         <textarea
@@ -100,6 +100,22 @@ export default function ProductUpdateForm() {
             setEditedProduct({ ...editedProduct, imgUrl: e.target.value });
           }}
           name="imgUrl"
+          className="w-full"
+        />
+      </div>
+      <div>
+        <label htmlFor="price">Prix</label>
+        <input
+          type="number"
+          id="price"
+          value={editedProduct?.price ?? "0"}
+          onChange={(e) => {
+            setEditedProduct({
+              ...editedProduct,
+              price: e.target.value,
+            });
+          }}
+          name="price"
           className="w-full"
         />
       </div>

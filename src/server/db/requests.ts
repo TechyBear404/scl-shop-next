@@ -1,6 +1,6 @@
 "use server";
 import { cache } from "react";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 import { db } from "~/server/db";
 import { products } from "./schema/products";
@@ -21,7 +21,7 @@ type CreateProductType = DocInsert<"products">;
 
 export const getProduct = async (id: number) => {
   try {
-    const product = await db.query.products.findMany({
+    const product = await db.query.products.findFirst({
       where: eq(products.id, id),
       columns: {
         createdAt: false,
@@ -36,18 +36,20 @@ export const getProduct = async (id: number) => {
         },
       },
     });
-    console.log(product);
+    // console.log(product);
 
     return product;
   } catch (error) {
     console.error(error);
-    return {};
+    // return {};
   }
 };
 
-export const getProducts = async () => {
+export const getProducts = async (category?: number) => {
   try {
     const products = await db.query.products.findMany({
+      where: (products, { eq }) =>
+        category ? eq(products.category, category) : undefined,
       columns: {
         createdAt: false,
         updatedAt: false,
@@ -79,6 +81,7 @@ export const createProduct = async (formData: FormData) => {
     desc: formData.get("desc") as string,
     tips: formData.get("tips") as string,
     imgUrl: formData.get("imgUrl") as string,
+    price: parseInt(formData.get("price") as string),
     category: parseInt(formData.get("category") as string),
   };
 
@@ -108,6 +111,7 @@ export const updateProduct = async (formData: FormData) => {
     desc: formData.get("desc") as string,
     tips: formData.get("tips") as string,
     imgUrl: formData.get("imgUrl") as string,
+    price: parseInt(formData.get("price") as string),
     category: formData.get("category")
       ? parseInt(formData.get("category") as string)
       : null,

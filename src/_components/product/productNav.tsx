@@ -1,18 +1,19 @@
-import type { CategoryType } from "~/server/db/requests";
-export function ProductNav({
-  categories,
-  test,
-}: {
-  categories: CategoryType[];
-  test: (name: string) => void;
-}) {
+import Link from "next/link";
+import { getCategories, type CategoryType } from "~/server/db/requests";
+export async function ProductNav() {
+  const categories = await getCategories();
   return (
-    <div className="invisible mt-16 bg-white p-4 md:visible">
+    <div className="hidden bg-white p-4 md:block">
       <nav className="flex flex-col items-start justify-start">
+        <Link href="/products">Tous les produits</Link>
         {categories.map((category) => (
-          <button type="button" key={category.id} className="text-nowrap">
+          <Link
+            key={category.id}
+            href={`?${new URLSearchParams({ category: category.id.toString() }).toString()}`}
+            className="text-nowrap"
+          >
             {category.name}
-          </button>
+          </Link>
         ))}
       </nav>
     </div>

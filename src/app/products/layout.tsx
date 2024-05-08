@@ -9,14 +9,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const test = (text: string) => {
-    console.log(text);
-  };
-  const categories = await getCategories();
-
   return (
-    <div className="m-auto flex max-w-[1280px] justify-center">
-      <ProductNav categories={categories} test={test} />
+    <div className="mx-auto mt-16 flex h-screen w-full max-w-[1280px] gap-6">
+      <ProductNav />
       {children}
       <ProductDetails />
     </div>

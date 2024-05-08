@@ -1,9 +1,10 @@
 import "~/styles/globals.css";
 import TopNav from "~/_components/top-nav";
 import SessionWrapper from "~/utils/contexts/SessionWrapper";
-// import ProductProvider from "~/utils/contexts/SelectedProductContext";
+import { DataProvider } from "~/utils/contexts/dataContext";
+import { getCategories, getProducts } from "~/server/db/requests";
 
-import { Inter, Merriweather } from "next/font/google";
+// import { Inter, Merriweather } from "next/font/google";
 
 export const metadata = {
   title: "Le Palais des Senteurs",
@@ -17,13 +18,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`flex min-h-screen flex-col `}>
+    <html lang="fr">
+      <body className={`flex h-screen flex-col `}>
         <SessionWrapper>
-          {/* <ProductProvider> */}
-          <TopNav />
-          {children}
-          {/* </ProductProvider> */}
+          <DataProvider>
+            <TopNav />
+            {children}
+          </DataProvider>
         </SessionWrapper>
       </body>
     </html>

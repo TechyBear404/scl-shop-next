@@ -1,10 +1,12 @@
 "use client";
 
-import { createContext, useContext, useReducer } from "react";
-import type {
-  ProductsType,
-  CategoriesType,
-  ProductType,
+import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  type ProductsType,
+  type CategoriesType,
+  type ProductType,
+  getProducts,
+  getCategories,
 } from "~/server/db/requests";
 
 interface State {
@@ -49,17 +51,7 @@ export interface DataContextType {
 }
 
 export const initialState: State = {
-  products: [
-    {
-      id: 0,
-      name: "name",
-      catchPhrase: "catchPhrase",
-      desc: "desc",
-      tips: "tips",
-      imgUrl: "imgUrl",
-      category: 0 || null,
-    },
-  ],
+  products: [],
   categories: [],
 };
 
@@ -77,7 +69,20 @@ export const DataContext = createContext<DataContextType>({
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(dataReducer, initialState);
+
+  useEffect(() => {
+    const products = async () => {
+      const products = await getProducts();
+      const categories = await getCategories();
+      dispatch({ type: "SET_PRODUCTS", payload: products });
+      dispatch({ type: "SET_CATEGORIES", payload: categories });
+    };
+    void products();
+  }, []);
+
   const value = { state, dispatch };
+  // console.log("value", value);
+
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };
 
