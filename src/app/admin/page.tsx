@@ -10,7 +10,7 @@ export default function AdminPage() {
   return (
     <main
       id="productsTable"
-      className="mt-16  content-center items-start justify-center gap-10"
+      className="mt-16  min-h-screen content-center items-start justify-center gap-10"
     >
       <DataProvider>
         <Suspense fallback="Loading...">

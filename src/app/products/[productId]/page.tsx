@@ -12,7 +12,7 @@ export default async function ProductDetails({
     Number(params.productId),
   );
   return (
-    <main className=" mx-auto max-w-3xl  grow pt-10">
+    <main className=" mx-auto min-h-screen  max-w-3xl grow pt-10 ">
       <article className="grid grid-cols-2">
         <figure>
           <Image

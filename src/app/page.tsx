@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 export const dynamic = "force-dynamic";
-export default async function HomePage() {
+export default function HomePage() {
   return (
     <>
-      <section className="flex flex-col">
+      <section className="flex min-h-screen flex-col">
         <figure>
           <Image
             src="/images/femme_homme_bougie.jpg"

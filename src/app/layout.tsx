@@ -2,7 +2,6 @@ import "~/styles/globals.css";
 import TopNav from "~/_components/top-nav";
 import SessionWrapper from "~/utils/contexts/SessionWrapper";
 import { DataProvider } from "~/utils/contexts/dataContext";
-import { getCategories, getProducts } from "~/server/db/requests";
 import Footer from "~/_components/footer";
 
 // import { Inter, Merriweather } from "next/font/google";

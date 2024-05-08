@@ -1,7 +1,6 @@
 import { getProducts } from "~/server/db/requests";
 import ProductCard from "~/_components/product/productCard";
 import ProductDetails from "~/_components/product/productDetails";
-import { ProductNav } from "~/_components/product/productNav";
 
 export const dynamic = "force-dynamic";
 export default async function HomePage({
@@ -21,7 +20,6 @@ export default async function HomePage({
   // console.log(products);
   return (
     <main className="flex w-full">
-      <ProductNav searchParams={searchParams} />
       <ProductDetails />
       <section className="mt-6 grid grid-cols-1 content-start justify-center justify-items-center gap-6 scroll-auto md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((product) => (
