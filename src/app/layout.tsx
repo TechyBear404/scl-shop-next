@@ -3,6 +3,7 @@ import TopNav from "~/_components/top-nav";
 import SessionWrapper from "~/utils/contexts/SessionWrapper";
 import { DataProvider } from "~/utils/contexts/dataContext";
 import { getCategories, getProducts } from "~/server/db/requests";
+import Footer from "~/_components/footer";
 
 // import { Inter, Merriweather } from "next/font/google";
 
@@ -19,11 +20,12 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={`flex h-screen flex-col `}>
+      <body className={`flex flex-col `}>
         <SessionWrapper>
           <DataProvider>
             <TopNav />
             {children}
+            <Footer />
           </DataProvider>
         </SessionWrapper>
       </body>
