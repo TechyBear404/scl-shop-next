@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { IoMdArrowDropright } from "react-icons/io";
 import { useSearchParams } from "next/navigation";
-import { useDataContext } from "~/utils/contexts/dataContext";
+import { type CategoriesCountType } from "~/server/db/requests";
 
-export default function ProductNav() {
-  const { state, dispatch } = useDataContext();
+export default function ProductNav({
+  categories,
+}: {
+  categories: CategoriesCountType;
+}) {
   const params = useSearchParams();
   const selectedCategory = params.get("category");
 
@@ -19,7 +22,7 @@ export default function ProductNav() {
         {selectedCategory === null ? <IoMdArrowDropright /> : ""}
         <p>Tous les produits</p>
       </Link>
-      {state.categories.map((category) => (
+      {categories.map((category) => (
         <Link
           key={category.id}
           href={`/products/?${new URLSearchParams({ category: category.id.toString() }).toString()}`}
@@ -30,7 +33,7 @@ export default function ProductNav() {
           ) : (
             ""
           )}
-          {category.name}
+          {category.name} ({category.productsQty})
         </Link>
       ))}
     </nav>

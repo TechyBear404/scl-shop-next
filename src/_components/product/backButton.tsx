@@ -13,7 +13,7 @@ export default function BackButton() {
       onClick={handleBackClick}
     >
       <FaArrowLeft />
-      <div>Revenir en arriere</div>
+      <div>Retour aux Produits</div>
     </button>
   );
 }

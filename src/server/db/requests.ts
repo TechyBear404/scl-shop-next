@@ -1,11 +1,13 @@
 "use server";
 import { cache } from "react";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql, count } from "drizzle-orm";
 
 import { db } from "~/server/db";
 import { products } from "./schema/products";
 import type { Doc, DocInsert } from "./schema/dbTypes";
 import { revalidatePath } from "next/cache";
+import { categories } from "./schema/categories";
+import { PgSelect } from "drizzle-orm/pg-core";
 
 type CreateProductType = DocInsert<"products">;
 
@@ -139,6 +141,7 @@ export const getCategories = async () => {
         updatedAt: false,
       },
     });
+
     return categories;
   } catch (error) {
     console.error(error);
@@ -146,6 +149,31 @@ export const getCategories = async () => {
   }
 };
 
+export const getCategoriesCount = async () => {
+  try {
+    const catCount = await db
+      .select({
+        id: categories.id,
+        name: categories.name,
+        parentCatID: categories.parentCatID,
+
+        productsQty: sql<number>`count(${products.id})`,
+      })
+      .from(categories)
+      .leftJoin(products, eq(categories.id, products.category))
+      .groupBy(sql`${categories.id}`)
+      .orderBy(categories.id);
+
+    return catCount;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+export type CategoriesCountType = Awaited<
+  ReturnType<typeof getCategoriesCount>
+>;
 export type CategoriesType = Awaited<ReturnType<typeof getCategories>>;
 export type CategoryType = CategoriesType extends (infer ElementType)[]
   ? ElementType

@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import {
   type ProductsType,
-  type CategoriesType,
+  // type CategoriesType,
   type ProductType,
   getProducts,
   getCategories,
@@ -14,6 +14,12 @@ interface State {
   selectedProduct?: ProductType;
   categories: CategoriesType;
 }
+type CategoriesType = {
+  id: number;
+  name: string;
+  parentCatID: number | null;
+  count: number;
+}[];
 
 type Actions =
   | {
@@ -73,9 +79,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const products = async () => {
       const products = await getProducts();
-      const categories = await getCategories();
+      // const categories = await getCategories();
       dispatch({ type: "SET_PRODUCTS", payload: products });
-      dispatch({ type: "SET_CATEGORIES", payload: categories });
+      // dispatch({ type: "SET_CATEGORIES", payload: categories });
     };
     void products();
   }, []);
