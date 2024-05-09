@@ -1,14 +1,7 @@
 "use client";
 export const dynamic = "force-dynamic";
-import type {
-  ProductsType,
-  ProductType,
-  CategoriesType,
-} from "~/server/db/requests";
+import type { ProductType } from "~/server/db/requests";
 import ProductsListElem from "./listProductsElem";
-import { useEffect } from "react";
-import { getProducts, getCategories } from "~/server/db/requests";
-import { revalidatePath } from "next/cache";
 
 import { useDataContext } from "~/utils/contexts/dataContext";
 export default function ProductsList() {

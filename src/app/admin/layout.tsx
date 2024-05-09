@@ -1,13 +1,10 @@
-"use client";
-// "use server";
-// import { auth } from "auth";
-import { useSession } from "next-auth/react";
-export default function AdminLayout({
+import { auth } from "auth";
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = useSession();
+  const session = await auth();
 
   if (!session || session.user!.role !== "admin") {
     return (

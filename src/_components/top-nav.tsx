@@ -1,19 +1,15 @@
-"use client";
+// "use client";
 
 import { SignIn } from "~/_components/auth/sign-in";
-import { SignOut } from "~/_components/auth/sign-out";
-import Image from "next/image";
+import SignOut from "~/_components/auth/sign-out";
 import Link from "next/link";
 import Avatar from "~/_components/avatar";
 
-import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import NavLink from "./navLink";
+import { auth, signOut } from "auth";
 
-export default function TopNav() {
-  const pathName = usePathname();
-  const isActive = (href: string) => pathName === href;
-  const { data: session } = useSession();
-  // console.log("session", session);
+export default async function TopNav() {
+  const session = await auth();
 
   return (
     <nav className="fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-2 font-bold text-rose-800 backdrop-blur-sm ">
@@ -21,42 +17,22 @@ export default function TopNav() {
         Candle
       </Link>
       <div className="flex-grow"></div>
-      <Link
-        href="/"
-        className={`${isActive("/") ? "scale-105 font-extrabold " : ""}`}
-      >
-        Accueil
-      </Link>
-      <Link
-        href="/products"
-        className={`${isActive("/products") ? "scale-105 font-extrabold " : ""}`}
-      >
-        Produits
-      </Link>
-      <Link
-        href="/contact"
-        className={`${isActive("/contact") ? "scale-105 font-extrabold " : ""}`}
-      >
-        Contact
-      </Link>
-      <Link
-        href="/team"
-        className={`${isActive("/team") ? "scale-105 font-extrabold " : ""}`}
-      >
-        L&apos;équipe
-      </Link>
+      <NavLink link={{ href: "/", name: "Acceuil" }} />
+      <NavLink link={{ href: "/products", name: "Produits" }} />
+      <NavLink link={{ href: "/contact", name: "Contact" }} />
+      <NavLink link={{ href: "/team", name: "L'équipe" }} />
       {session?.user?.role === "admin" && (
-        <Link
-          href="/admin"
-          className={`${isActive("/admin") ? "scale-105 font-extrabold " : ""}`}
-        >
-          Admin
-        </Link>
+        <NavLink link={{ href: "/admin", name: "Admin" }} />
       )}
       <div className="flex items-center gap-2">
         {session ? (
           <>
-            <SignOut />
+            <SignOut
+              signOut={async () => {
+                "use server";
+                await signOut({ redirectTo: "/" });
+              }}
+            />
             <Avatar session={session} />
           </>
         ) : (
