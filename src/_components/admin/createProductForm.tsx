@@ -9,11 +9,12 @@ import { revalidatePath } from "next/cache";
 
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
+import InputForm from "./inputForm";
 
 // type ProductType = Doc<"products">;
 
 export default function CreateProductForm() {
-  const [newProduct, setNewProduct] = useState<ProductType>();
+  const [product, setProduct] = useState<Partial<ProductType>>();
   const ref = useRef<HTMLFormElement>(null);
 
   return (
@@ -27,88 +28,60 @@ export default function CreateProductForm() {
       className="flex flex-col gap-2 p-4"
     >
       <div>
-        <label htmlFor="name">Nom</label>
-        <input
-          type="text"
-          id="name"
-          value={newProduct?.name ?? ""}
-          onChange={(e) => {
-            setNewProduct({ ...newProduct, name: e.target.value });
+        <input type="hidden" id="id" name="id" value={product?.id} />
+        <InputForm
+          data={{
+            display: "Nom",
+            type: "text",
+            value: product?.name,
+            idName: "name",
           }}
-          name="name"
-          className="w-full"
         />
       </div>
+      <InputForm
+        data={{
+          display: "Phrase d'accroche",
+          type: "text",
+          idName: "catchPhrase",
+          value: product?.catchPhrase,
+        }}
+      />
+      <InputForm
+        data={{
+          display: "Description",
+          type: "textarea",
+          idName: "desc",
+          value: product?.desc,
+        }}
+      />
+      <InputForm
+        data={{
+          display: "Conseils d'utilisation",
+          type: "textarea",
+          idName: "tips",
+          value: product?.tips,
+        }}
+      />
 
-      <div>
-        <label htmlFor="catchPhrase">Phrase d&apos;accroche</label>
-        <input
-          type="text"
-          id="catchPhrase"
-          value={newProduct?.catchPhrase ?? ""}
-          onChange={(e) => {
-            setNewProduct({ ...newProduct, catchPhrase: e.target.value });
-          }}
-          name="catchPhrase"
-          className="w-full"
-        />
-      </div>
-      <div>
-        <label htmlFor="desc">Description</label>
-        <textarea
-          id="desc"
-          name="desc"
-          className="w-full"
-          value={newProduct?.desc ?? ""}
-          onChange={(e) => {
-            setNewProduct({ ...newProduct, desc: e.target.value });
-          }}
-        />
-      </div>
-      <div>
-        <label htmlFor="tips">Conseils d&apos;utilisation</label>
-        <textarea
-          id="tips"
-          name="tips"
-          className="w-full"
-          value={newProduct?.tips ?? ""}
-          onChange={(e) => {
-            setNewProduct({ ...newProduct, tips: e.target.value });
-          }}
-        />
-      </div>
-      <div>
-        <label htmlFor="imgUrl">Image</label>
-        <input
-          type="text"
-          id="imgUrl"
-          value={newProduct?.imgUrl ?? ""}
-          onChange={(e) => {
-            setNewProduct({ ...newProduct, imgUrl: e.target.value });
-          }}
-          name="imgUrl"
-          className="w-full"
-        />
-      </div>
-      <div>
-        <label htmlFor="price">Prix</label>
-        <input
-          type="number"
-          id="price"
-          value={newProduct?.price ?? ""}
-          onChange={(e) => {
-            setNewProduct({
-              ...newProduct,
-              price: e.target.value,
-            });
-          }}
-          name="price"
-          className="w-full"
-        />
-      </div>
+      <InputForm
+        data={{
+          display: "Image",
+          type: "text",
+          idName: "imgUrl",
+          value: product?.imgUrl,
+        }}
+      />
+      <InputForm
+        data={{
+          display: "Prix",
+          type: "number",
+          idName: "price",
+          value: product?.price?.toString(),
+        }}
+      />
       <SelectCategory />
       <div>
-        <WaitingButton okText="Créer" waitingText="En cours..." />
+        <WaitingButton okText="Modifier" waitingText="En cours..." />
       </div>
     </form>
   );

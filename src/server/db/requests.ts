@@ -7,7 +7,9 @@ import { products } from "./schema/products";
 import type { Doc, DocInsert } from "./schema/dbTypes";
 import { revalidatePath } from "next/cache";
 import { categories } from "./schema/categories";
+import { messages } from "./schema/messages";
 import { PgSelect } from "drizzle-orm/pg-core";
+import { log } from "console";
 
 type CreateProductType = DocInsert<"products">;
 
@@ -23,7 +25,7 @@ type CreateProductType = DocInsert<"products">;
 
 export const getProduct = async (id: number) => {
   try {
-    const product = await db.query.products.findFirst({
+    const response = await db.query.products.findFirst({
       where: eq(products.id, id),
       columns: {
         createdAt: false,
@@ -38,18 +40,23 @@ export const getProduct = async (id: number) => {
         },
       },
     });
-    // console.log(product);
+    // console.log(response);
 
-    return product;
+    if (response) {
+      return { status: "success", data: response };
+    } else {
+      return { status: "error", data: undefined };
+    }
   } catch (error) {
-    console.error(error);
-    // return {};
+    console.log(error);
+
+    // return { status: "error", data: undefined };
   }
 };
 
 export const getProducts = async (category?: number) => {
   try {
-    const products = await db.query.products.findMany({
+    const response = await db.query.products.findMany({
       where: (products, { eq }) =>
         category ? eq(products.category, category) : undefined,
       columns: {
@@ -66,17 +73,18 @@ export const getProducts = async (category?: number) => {
       },
     });
 
-    return products;
+    if (response) {
+      return { status: "success", data: response };
+    }
   } catch (error) {
-    console.error(error);
-    return [];
+    // console.error(error);
+    return { status: "error", data: [] };
   }
 };
 
 type NewProduct = typeof products.$inferInsert;
 
 export const createProduct = async (formData: FormData) => {
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
   const newProduct: NewProduct = {
     name: formData.get("name") as string,
     catchPhrase: formData.get("catchPhrase") as string,
@@ -88,22 +96,50 @@ export const createProduct = async (formData: FormData) => {
   };
 
   // revalidatePath("/products");
-  console.log(newProduct);
+  // console.log(newProduct);
 
   try {
-    await db.insert(products).values(newProduct).returning();
-    // const insertProduct = async () => {
-    //   return await db.insert(products).values(newProduct).returning();
-    // }
+    const response = await db.insert(products).values(newProduct).returning();
+    if (response) {
+      return { status: "success" };
+    }
   } catch (error) {
     console.error(error);
+    return { status: "error" };
   }
-  revalidatePath("/");
+  // revalidatePath("/");
 };
 export type ProductsType = Awaited<ReturnType<typeof getProducts>>;
-export type ProductType = ProductsType extends (infer ElementType)[]
-  ? ElementType
-  : never;
+// export type ProductType = ProductsType extends (infer ElementType)[]
+//   ? ElementType
+//   : never;
+export type ProductType = {
+  id: number;
+  name: string;
+  catchPhrase: string;
+  desc: string;
+  tips: string;
+  imgUrl: string;
+  price: number;
+  category:
+    | (number & {
+        id: number;
+        name: string;
+        parentCatID: number | null;
+      })
+    | null;
+};
+
+export type UpdateProductType = {
+  id: number;
+  name?: string;
+  catchPhrase?: string;
+  desc?: string;
+  tips?: string;
+  imgUrl?: string;
+  price?: number;
+  category?: number;
+};
 
 export const updateProduct = async (formData: FormData) => {
   const product = {
@@ -120,14 +156,18 @@ export const updateProduct = async (formData: FormData) => {
   };
 
   try {
-    const updatedProduct = await db
+    const response = await db
       .update(products)
       .set(product)
       .where(eq(products.id, product.id))
       .returning();
-    return updatedProduct;
+
+    if (response) {
+      return { status: "success" };
+    }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
+    return { status: "error" };
   }
   revalidatePath("/admin", "page");
   revalidatePath("/products");
@@ -135,23 +175,25 @@ export const updateProduct = async (formData: FormData) => {
 
 export const getCategories = async () => {
   try {
-    const categories = await db.query.categories.findMany({
+    const response = await db.query.categories.findMany({
       columns: {
         createdAt: false,
         updatedAt: false,
       },
     });
 
-    return categories;
+    if (response) {
+      return { status: "success", data: response };
+    }
   } catch (error) {
-    console.error(error);
-    return [];
+    // console.error(error);
+    return { status: "error", data: [] };
   }
 };
 
 export const getCategoriesCount = async () => {
   try {
-    const catCount = await db
+    const response = await db
       .select({
         id: categories.id,
         name: categories.name,
@@ -164,17 +206,64 @@ export const getCategoriesCount = async () => {
       .groupBy(sql`${categories.id}`)
       .orderBy(categories.id);
 
-    return catCount;
+    if (response) {
+      return { status: "success", data: response };
+    }
   } catch (error) {
-    console.error(error);
-    return [];
+    // console.error(error);
+    return { status: "error", data: [] };
   }
 };
 
 export type CategoriesCountType = Awaited<
   ReturnType<typeof getCategoriesCount>
 >;
-export type CategoriesType = Awaited<ReturnType<typeof getCategories>>;
+// export type CategoriesType = Awaited<ReturnType<typeof getCategories>>;
+export type CategoriesType = {
+  id: number;
+  name: string;
+  parentCatID: number | null;
+}[];
 export type CategoryType = CategoriesType extends (infer ElementType)[]
   ? ElementType
   : never;
+
+export type NewMessageType = typeof messages.$inferInsert;
+
+export const createMessage = async (formData: FormData) => {
+  const newMessage: NewMessageType = {
+    first_name: formData.get("first_name") as string,
+    last_name: formData.get("last_name") as string,
+    email: formData.get("email") as string,
+    subject: formData.get("subject") as string,
+    message: formData.get("message") as string,
+  };
+
+  try {
+    const response = await db.insert(messages).values(newMessage).returning();
+    // console.log(response);
+
+    if (response) {
+      return { status: "success" };
+    }
+  } catch (error) {
+    // console.error(error);
+    return { status: "error" };
+  }
+};
+
+export const getMessages = async () => {
+  try {
+    const response = await db.query.messages.findMany({
+      columns: {
+        createdAt: false,
+        updatedAt: false,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    // console.error(error);
+    return [];
+  }
+};

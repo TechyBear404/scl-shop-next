@@ -1,125 +1,121 @@
 "use client";
 // "use server";
 
-import { updateProduct } from "~/server/db/requests";
+import { getProduct, updateProduct } from "~/server/db/requests";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect, useContext } from "react";
-import type { ProductType } from "~/server/db/requests";
+import { useState, useEffect, useContext, useRef } from "react";
+import type {
+  CategoriesType,
+  ProductType,
+  UpdateProductType,
+} from "~/server/db/requests";
 
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
+import InputForm from "./inputForm";
 
-import { useDataContext } from "~/utils/contexts/dataContext";
+type DataType = {
+  data: ProductType;
+  status: string;
+};
+
+// import { useDataContext } from "~/utils/contexts/dataContext";
 
 export default function ProductUpdateForm() {
-  const [editedProduct, setEditedProduct] = useState<ProductType>();
-  const { state, dispatch } = useDataContext();
+  const [product, setProduct] = useState<Partial<ProductType>>();
+  // const { state, dispatch } = useDataContext();
   const params = useSearchParams();
   const selected = params.get("selected");
+  const ref = useRef<HTMLFormElement>(null);
 
-  // const product: ProductType | undefined = state.products.find(
-  //   (product) => product.id === Number(selected),
-  // );
   useEffect(() => {
-    dispatch({ type: "GET_PRODUCT", payload: Number(selected) });
-    setEditedProduct(state.selectedProduct);
-  }, [dispatch, selected, state.selectedProduct]);
+    if (!selected) return;
+    fetch(`/api/data/products/${selected}`)
+      .then((res) => res.json())
+      .then((data: DataType) => {
+        if (data && data.status === "success") {
+          setProduct(data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [selected]);
 
   return (
     <form
-      action={
-        updateProduct
+      ref={ref}
+      action={async (updatedProduct) => {
+        const response = await updateProduct(updatedProduct);
+        if (response?.status === "success") {
+          ref.current?.reset();
+        } else {
+          console.log("Error");
+        }
         // revalidatePath("/admin", "page");
-      }
+      }}
       className="flex flex-col gap-2 p-4"
     >
       <div>
-        <input
-          type="hidden"
-          id="id"
-          name="id"
-          value={editedProduct?.id ?? ""}
-        />
-        <label htmlFor="name">Nom</label>
-        <input
-          type="text"
-          id="name"
-          value={editedProduct?.name ?? ""}
-          onChange={(e) => {
-            setEditedProduct({ ...editedProduct, name: e.target.value });
+        <InputForm
+          data={{
+            display: "",
+            type: "hidden",
+            idName: "id",
+            value: product?.id,
           }}
-          name="name"
-          className="w-full"
+        />
+        <InputForm
+          data={{
+            display: "Nom",
+            type: "text",
+            idName: "name",
+            value: product?.name,
+          }}
         />
       </div>
-      <div>
-        <label htmlFor="catchPhrase">Phrase d&apos;accroche</label>
-        <input
-          type="text"
-          id="catchPhrase"
-          value={editedProduct?.catchPhrase ?? ""}
-          onChange={(e) => {
-            setEditedProduct({ ...editedProduct, catchPhrase: e.target.value });
-          }}
-          name="catchPhrase"
-          className="w-full"
-        />
-      </div>
+      <InputForm
+        data={{
+          display: "Phrase d'accroche",
+          type: "text",
+          idName: "catchPhrase",
+          value: product?.catchPhrase,
+        }}
+      />
+      <InputForm
+        data={{
+          display: "Description",
+          type: "textarea",
+          idName: "desc",
+          value: product?.desc,
+        }}
+      />
+      <InputForm
+        data={{
+          display: "Conseils d'utilisation",
+          type: "textarea",
+          idName: "tips",
+          value: product?.tips,
+        }}
+      />
 
-      <div>
-        <label htmlFor="desc">Description</label>
-        <textarea
-          id="desc"
-          name="desc"
-          className="w-full"
-          value={editedProduct?.desc ?? ""}
-          onChange={(e) => {
-            setEditedProduct({ ...editedProduct, desc: e.target.value });
-          }}
-        />
-      </div>
-      <div>
-        <label htmlFor="tips">Conseils d&apos;utilisation</label>
-        <textarea
-          id="tips"
-          name="tips"
-          className="w-full"
-          value={editedProduct?.tips ?? ""}
-          onChange={(e) => {
-            setEditedProduct({ ...editedProduct, tips: e.target.value });
-          }}
-        />
-      </div>
-      <div>
-        <label htmlFor="imgUrl">Image</label>
-        <input
-          type="text"
-          id="imgUrl"
-          value={editedProduct?.imgUrl ?? ""}
-          onChange={(e) => {
-            setEditedProduct({ ...editedProduct, imgUrl: e.target.value });
-          }}
-          name="imgUrl"
-          className="w-full"
-        />
-      </div>
-      <div>
-        <label htmlFor="price">Prix</label>
-        <input
-          type="number"
-          id="price"
-          value={editedProduct?.price ?? "0"}
-          onChange={(e) => {
-            setEditedProduct({
-              ...editedProduct,
-              price: e.target.value,
-            });
-          }}
-          name="price"
-          className="w-full"
-        />
-      </div>
-      <SelectCategory currentCategory={editedProduct?.category} />
+      <InputForm
+        data={{
+          display: "Image",
+          type: "text",
+          idName: "imgUrl",
+          value: product?.imgUrl,
+        }}
+      />
+      <InputForm
+        data={{
+          display: "Prix",
+          type: "number",
+          idName: "price",
+          value: product?.price?.toString(),
+        }}
+      />
+      <SelectCategory selectedCategory={Number(selected)} />
       <div>
         <WaitingButton okText="Modifier" waitingText="En cours..." />
       </div>

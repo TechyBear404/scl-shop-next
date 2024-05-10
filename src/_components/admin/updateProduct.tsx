@@ -1,7 +1,7 @@
-import type { CategoriesType } from "~/server/db/requests";
 import ProductUpdateForm from "./updateProductForm";
 
 export default function UpdateProduct() {
+  // const categories = getCategories();
   return (
     <div className="">
       <ProductUpdateForm />

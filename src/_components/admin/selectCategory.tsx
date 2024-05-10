@@ -1,14 +1,39 @@
-// "use client";
-import { useContext } from "react";
-import type { CategoriesType, CategoryType } from "~/server/db/requests";
-import { useDataContext } from "~/utils/contexts/dataContext";
+"use client";
+import { useEffect, useState } from "react";
+import type { CategoriesType } from "~/server/db/requests";
+
+type DataType = {
+  data: CategoriesType;
+  status: string;
+};
 
 export default function SelectCategory({
-  currentCategory,
+  selectedCategory,
 }: {
-  currentCategory?: CategoryType;
+  selectedCategory?: number;
 }) {
-  const { state, dispatch } = useDataContext();
+  const [category, setCategory] = useState<number>(2);
+  const [categories, setCategories] = useState<CategoriesType>([]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setCategory(selectedCategory);
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    fetch("/api/data/categories")
+      .then((res) => res.json())
+      .then((data: DataType) => {
+        if (data && data.status === "success") {
+          setCategories(data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col">
       <label htmlFor="category">Catégorie</label>
@@ -16,12 +41,13 @@ export default function SelectCategory({
         name="category"
         id="category"
         className="h-6 bg-white"
-        value={currentCategory?.id ? currentCategory.id : 1}
+        value={category}
         onChange={(e) => {
-          // setEditedProduct({ ...editedProduct, name: e.target.value });
+          setCategory(Number(e.target.value));
         }}
       >
-        {state?.categories?.map((category) => (
+        {/* <option value="default">Choisir une catégorie</option> */}
+        {categories?.map((category) => (
           <option key={category?.id} value={category?.id}>
             {category?.name}
           </option>

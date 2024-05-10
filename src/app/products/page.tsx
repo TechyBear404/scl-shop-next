@@ -10,17 +10,22 @@ export default async function HomePage({
   searchParams?: Record<string, string | string[] | undefined>;
 }) {
   let products;
+  let response;
   if (searchParams?.category) {
-    products = await getProducts(Number(searchParams.category));
+    response = await getProducts(Number(searchParams.category));
   } else {
-    products = await getProducts();
+    response = await getProducts();
+  }
+  if (response?.status === "success") {
+    products = response.data;
+    // console.log(products);
   }
 
   return (
     <main className="p-6 md:ml-60">
       <Suspense fallback="Loading...">
         <section className="flex flex-wrap  justify-center gap-6">
-          {products.map((product) => (
+          {products?.map((product) => (
             <ProductCard product={product} key={product.id} />
           ))}
         </section>

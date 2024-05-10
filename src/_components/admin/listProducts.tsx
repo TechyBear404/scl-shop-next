@@ -3,9 +3,12 @@ export const dynamic = "force-dynamic";
 import type { ProductType } from "~/server/db/requests";
 import ProductsListElem from "./listProductsElem";
 
-import { useDataContext } from "~/utils/contexts/dataContext";
-export default function ProductsList() {
-  const { state, dispatch } = useDataContext();
+export default function ProductsList({
+  products,
+}: {
+  products: ProductType[] | undefined;
+}) {
+  // const { state } = useDataContext();
 
   return (
     <div id="productsTable" className="w-full ">
@@ -19,8 +22,8 @@ export default function ProductsList() {
         </div>
 
         <div className="">
-          {state.products
-            ? state.products.map((product: ProductType) => (
+          {products
+            ? products.map((product: ProductType) => (
                 <ProductsListElem key={product.id} product={product} />
               ))
             : "Loading..."}

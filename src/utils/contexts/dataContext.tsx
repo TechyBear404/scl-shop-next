@@ -9,43 +9,37 @@ import {
   getCategories,
 } from "~/server/db/requests";
 
+// type ProdType =  ProductsType["data"]
 interface State {
-  products: ProductsType;
+  // products: ProductType[];
   selectedProduct?: ProductType;
-  categories: CategoriesType;
+  // categories: CategoriesType;
 }
-type CategoriesType = {
-  id: number;
-  name: string;
-  parentCatID: number | null;
-  count: number;
-}[];
+// type CategoriesType = {
+//   id: number;
+//   name: string;
+//   parentCatID: number | null;
+//   count: number;
+// }[];
 
-type Actions =
-  | {
-      type: "SET_PRODUCTS";
-      payload: ProductsType;
-    }
-  | {
-      type: "SET_CATEGORIES";
-      payload: CategoriesType;
-    }
-  | {
-      type: "GET_PRODUCT";
-      payload: number;
-    };
+type Actions = {
+  type: "SET_PRODUCTS";
+  payload: ProductType[];
+};
+// | {
+//     type: "GET_PRODUCT";
+//     payload: number;
+//   };
 
 export function dataReducer(state: State, action: Actions) {
   switch (action.type) {
     case "SET_PRODUCTS":
       return { ...state, products: action.payload };
-    case "GET_PRODUCT":
-      return {
-        ...state,
-        selectedProduct: state.products.find((p) => p.id === action.payload)!,
-      };
-    case "SET_CATEGORIES":
-      return { ...state, categories: action.payload };
+    // case "GET_PRODUCT":
+    //   return {
+    //     ...state,
+    //     selectedProduct: state.products.find((p) => p.id === action.payload)!,
+    //   };
     default:
       return state;
   }
@@ -57,15 +51,12 @@ export interface DataContextType {
 }
 
 export const initialState: State = {
-  products: [],
-  categories: [],
+  selectedProduct: undefined,
 };
 
 export const DataContext = createContext<DataContextType>({
   state: {
-    products: [],
     selectedProduct: undefined,
-    categories: [],
   },
   // Placeholder for dispatch function
   dispatch: () => {
@@ -78,9 +69,12 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const products = async () => {
-      const products = await getProducts();
+      const newProducts = await getProducts();
+      if (newProducts?.status === "success") {
+        const data = newProducts.data;
+        dispatch({ type: "SET_PRODUCTS", payload: data });
+      }
       // const categories = await getCategories();
-      dispatch({ type: "SET_PRODUCTS", payload: products });
       // dispatch({ type: "SET_CATEGORIES", payload: categories });
     };
     void products();

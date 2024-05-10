@@ -3,10 +3,26 @@ export const dynamic = "force-dynamic";
 import { Suspense } from "react";
 import ProductsList from "~/_components/admin/listProducts";
 import TabOperations from "~/_components/admin/tabOperations";
+import {
+  CategoriesType,
+  getCategories,
+  getProducts,
+} from "~/server/db/requests";
 import { DataProvider } from "~/utils/contexts/dataContext";
 // import { useDataContext } from "~/utils/contexts/dataContext";
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  const responseProducts = await getProducts();
+  const responseCategories = await getCategories();
+  let products;
+  let categories: CategoriesType = [];
+  if (responseProducts && responseProducts.status === "success") {
+    products = responseProducts.data;
+  }
+  if (responseCategories && responseCategories.status === "success") {
+    categories = responseCategories.data;
+  }
+
   return (
     <main
       id="productsTable"
@@ -14,9 +30,9 @@ export default function AdminPage() {
     >
       <DataProvider>
         <Suspense fallback="Loading...">
-          <ProductsList />
+          <ProductsList products={products} />
         </Suspense>
-        <TabOperations />
+        <TabOperations categories={categories} />
       </DataProvider>
     </main>
   );
