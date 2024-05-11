@@ -36,7 +36,9 @@ export default function SelectCategory({
 
   return (
     <div className="flex flex-col">
-      <label htmlFor="category">Catégorie</label>
+      <label className="font-semibold" htmlFor="category">
+        Catégorie
+      </label>
       <select
         name="category"
         id="category"

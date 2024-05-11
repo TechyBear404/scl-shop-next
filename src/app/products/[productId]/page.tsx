@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import BackButton from "~/_components/product/backButton";
+import BackButton from "~/app/products/_components/backButton";
 import { getProduct } from "~/server/db/requests";
 import type { ProductType } from "~/server/db/requests";
 

@@ -1,8 +1,8 @@
 // "use client";
 export const dynamic = "force-dynamic";
 import { Suspense } from "react";
-import ProductsList from "~/_components/admin/listProducts";
-import TabOperations from "~/_components/admin/tabOperations";
+import ProductsList from "~/app/admin/_components/listProducts";
+import TabOperations from "~/app/admin/_components/tabOperations";
 import {
   CategoriesType,
   getCategories,
@@ -26,7 +26,7 @@ export default async function AdminPage() {
   return (
     <main
       id="productsTable"
-      className="mt-14 flex flex-col content-center items-start justify-center gap-6 p-6"
+      className="relative mt-14 flex min-h-screen flex-col content-center items-start justify-start gap-6 p-6"
     >
       <DataProvider>
         <Suspense fallback="Loading...">

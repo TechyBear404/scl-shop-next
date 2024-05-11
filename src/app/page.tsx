@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 export default function HomePage() {
   return (
     <>
-      <section className="flex min-h-screen flex-col">
+      <section className="flex min-h-screen flex-col ">
         <figure>
           <Image
             src="/images/femme_homme_bougie.jpg"

@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
-import InputForm from "~/_components/admin/inputForm";
-import WaitingButton from "~/_components/admin/waitingButton";
+import InputForm from "~/app/_components/inputForm";
+import WaitingButton from "~/app/admin/_components/waitingButton";
 import { type NewMessageType, createMessage } from "~/server/db/requests";
 
 const blankMessage: NewMessageType = {

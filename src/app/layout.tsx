@@ -1,14 +1,14 @@
 import "~/styles/globals.css";
-import TopNav from "~/_components/top-nav";
+import TopNav from "~/app/_components/top-nav";
 import SessionWrapper from "~/utils/contexts/SessionWrapper";
 import { DataProvider } from "~/utils/contexts/dataContext";
-import Footer from "~/_components/footer";
+import Footer from "~/app/_components/footer";
 
 // import { Inter, Merriweather } from "next/font/google";
 
 export const metadata = {
-  title: "Le Palais des Senteurs",
-  description: "Magasin en ligne de bougies parfumées",
+  title: "Olfactaire",
+  description: "Magasin en ligne de produits parfumées",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

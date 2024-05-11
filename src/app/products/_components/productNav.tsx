@@ -14,7 +14,7 @@ export default function ProductNav({
   const selectedCategory = params.get("category");
 
   return (
-    <nav className="fixed left-0 hidden h-full w-60 flex-col items-start justify-start bg-rose-200/30 p-4 md:flex">
+    <nav className="fixed left-0 hidden h-full w-60 flex-col items-start justify-start bg-rose-200/70 p-4 md:flex">
       <Link
         href="/products"
         className={`${selectedCategory === null ? "font-bold" : ""} flex items-center text-nowrap`}

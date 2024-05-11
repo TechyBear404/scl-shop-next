@@ -1,11 +1,11 @@
 "use client";
 
-import UpdateProduct from "~/_components/admin/updateProduct";
-import CreateProduct from "~/_components/admin/createProduct";
+import UpdateProduct from "~/app/admin/_components/updateProduct";
+import CreateProduct from "~/app/admin/_components/createProduct";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import TabButton from "./tabButton";
-import { CategoriesType } from "~/server/db/requests";
+import { type CategoriesType } from "~/server/db/requests";
 
 export default function TabOperations({
   categories,
@@ -23,7 +23,7 @@ export default function TabOperations({
   }, [selected]);
 
   return (
-    <div className="flex flex-col rounded-md">
+    <div className="top-18 fixed right-6 z-20 flex w-96 flex-col rounded-md">
       <div className="flex justify-between  text-2xl font-bold text-rose-50 ">
         <TabButton
           activeTab={activeTab}
@@ -35,18 +35,6 @@ export default function TabOperations({
           setActiveTab={setActiveTab}
           tab={{ id: 2, name: "Modifier" }}
         />
-        {/* <button
-          className={`${activeTab === 1 ? "border-rose-800 bg-rose-800" : "mt-1 border-rose-950 border-b-rose-100/50 bg-rose-950 text-rose-50/50"} grow rounded-t-md border-2 p-2 transition duration-200 ease-in-out`}
-          onClick={() => setActiveTab(1)}
-        >
-          Ajouter
-        </button> */}
-        {/* <button
-          className={`${activeTab === 2 ? "border-rose-800 bg-rose-800" : "mt-1 border-rose-950 border-b-rose-100/50 bg-rose-950 text-rose-50/50"} grow rounded-t-md border-2 p-2 transition duration-200  ease-in-out`}
-          onClick={() => setActiveTab(2)}
-        >
-          Modifier
-        </button> */}
       </div>
       <div className="rounded-b-md border border-t-0 border-rose-800">
         {activeTab === 1 && <CreateProduct categories={categories} />}

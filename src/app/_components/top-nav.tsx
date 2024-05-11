@@ -1,9 +1,9 @@
 // "use client";
 
-import { SignIn } from "~/_components/auth/sign-in";
-import SignOut from "~/_components/auth/sign-out";
+import { SignIn } from "~/app/_components/auth/sign-in";
+import SignOut from "~/app/_components/auth/sign-out";
 import Link from "next/link";
-import Avatar from "~/_components/avatar";
+import Avatar from "~/app/_components/avatar";
 
 import NavLink from "./navLink";
 import { auth, signOut } from "auth";

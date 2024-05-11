@@ -24,7 +24,9 @@ export default function InputForm({ data }: { data: DataType }) {
     if (data.type === "textarea") {
       return (
         <>
-          <label htmlFor={inputValue.idName}>{inputValue.display}</label>
+          <label className="font-semibold" htmlFor={inputValue.idName}>
+            {inputValue.display}
+          </label>
           <textarea
             id={inputValue.idName}
             value={inputValue.value}
@@ -40,7 +42,9 @@ export default function InputForm({ data }: { data: DataType }) {
 
     return (
       <>
-        <label htmlFor={inputValue.idName}>{inputValue.display}</label>
+        <label className="font-semibold" htmlFor={inputValue.idName}>
+          {inputValue.display}
+        </label>
         <input
           type={inputValue.type}
           id={inputValue.idName}

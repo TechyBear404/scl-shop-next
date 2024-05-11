@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
-import InputForm from "./inputForm";
+import InputForm from "../../_components/inputForm";
 
 // type ProductType = Doc<"products">;
 
@@ -25,7 +25,7 @@ export default function CreateProductForm() {
         // input validation
         await createProduct(formData);
       }}
-      className="flex flex-col gap-2 p-4"
+      className="flex flex-col gap-2 bg-rose-100 p-4"
     >
       <div>
         <input type="hidden" id="id" name="id" value={product?.id} />

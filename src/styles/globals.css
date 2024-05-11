@@ -16,7 +16,7 @@ html {
   font-size: 100%;
 }
 body {
-  @apply bg-rose-50 font-merriweather text-rose-990;
+  @apply bg-rose-100 font-merriweather text-rose-990;
   /* margin-left: calc(100vw - 100%); */
 }
 
