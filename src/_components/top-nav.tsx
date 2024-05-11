@@ -12,9 +12,9 @@ export default async function TopNav() {
   const session = await auth();
 
   return (
-    <nav className="fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-200 bg-opacity-50 px-10 py-2 font-bold text-rose-800 backdrop-blur-sm ">
-      <Link href={"/"} className="text-2xl font-bold">
-        Candle
+    <nav className="fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-800 px-10 py-2 font-bold text-rose-50 ">
+      <Link href={"/"} className="font-merienda text-2xl font-bold">
+        Olfactaire
       </Link>
       <div className="flex-grow"></div>
       <NavLink link={{ href: "/", name: "Acceuil" }} />
