@@ -7,6 +7,7 @@ export default {
     extend: {
       fontFamily: {
         merriweather: ["Merriweather", ...fontFamily.sans],
+        merienda: ["Merienda", ...fontFamily.serif],
       },
       colors: {
         rose: {

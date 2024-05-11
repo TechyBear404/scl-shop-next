@@ -45,9 +45,9 @@ export const ingredients = createTable("ingredient", {
     .references(() => products.id),
 });
 
-export const ingredientsRelations = relations(benefits, ({ one }) => ({
+export const ingredientsRelations = relations(ingredients, ({ one }) => ({
   product: one(products, {
-    fields: [benefits.id],
+    fields: [ingredients.id],
     references: [products.id],
   }),
 }));

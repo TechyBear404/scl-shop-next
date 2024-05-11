@@ -1,29 +1,20 @@
 "use client";
 import { useRef, useState } from "react";
+import InputForm from "~/_components/admin/inputForm";
 import WaitingButton from "~/_components/admin/waitingButton";
 import { type NewMessageType, createMessage } from "~/server/db/requests";
 
+const blankMessage: NewMessageType = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  subject: "",
+  message: "",
+};
+
 export default function Contact() {
-  const [message, setMessage] = useState<NewMessageType>({
-    first_name: "",
-    last_name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const [message, setMessage] = useState<NewMessageType>(blankMessage);
   const ref = useRef<HTMLFormElement>(null);
-
-  // const handleSubmitClient = async (formData: FormData) => {
-  //   const response = await createMessage(formData);
-
-  //   if (response!.status === "success") {
-  //     console.log(response);
-  //     // success
-  //     ref.current!.reset();
-  //   } else {
-  //     // fail
-  //   }
-  // };
 
   return (
     <main id="contactPage" className="mx-auto mt-14 min-h-screen max-w-3xl ">
@@ -31,11 +22,15 @@ export default function Contact() {
         ref={ref}
         action={async (formData: FormData) => {
           const response = await createMessage(formData);
+          // console.log(response?.status);
 
           if (response!.status === "success") {
-            console.log(response);
+            // formData.
+            // ref.current?.reset();
+            setMessage({ ...message, ...blankMessage });
+            // console.log(response);
             // success
-            ref.current!.reset();
+            // ref.current!.reset();
           } else {
             // fail
           }
@@ -49,74 +44,55 @@ export default function Contact() {
         </p>
         <div className="flex gap-6">
           <div className="grow">
-            <label htmlFor="first_name">Prénom</label>
-            <input
-              type="text"
-              name="first_name"
-              id="first_name"
-              placeholder="Votre Prénom"
-              className="w-full rounded-md border border-gray-300 p-2"
-              value={message?.first_name}
-              onChange={(e) => {
-                setMessage({ ...message, first_name: e.target.value });
+            <InputForm
+              data={{
+                display: "Prénom",
+                idName: "first_name",
+                type: "text",
+                value: message.first_name,
               }}
             />
           </div>
           <div className="grow">
-            <label htmlFor="last_name">Nom</label>
-            <input
-              type="text"
-              name="last_name"
-              id="last_name"
-              placeholder="Votre Nom"
-              className="w-full rounded-md border border-gray-300 p-2"
-              value={message?.last_name}
-              onChange={(e) => {
-                setMessage({ ...message, last_name: e.target.value });
+            <InputForm
+              data={{
+                display: "Nom",
+                idName: "last_name",
+                type: "text",
+                value: message.last_name,
               }}
             />
           </div>
         </div>
         <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Votre Email"
-            className="w-full rounded-md border border-gray-300 p-2"
-            value={message?.email}
-            onChange={(e) => {
-              setMessage({ ...message, email: e.target.value });
+          <InputForm
+            data={{
+              display: "Email",
+              idName: "email",
+              type: "email",
+              value: message.email,
             }}
           />
         </div>
         <div>
-          <label htmlFor="subject">Sujet</label>
-          <input
-            type="text"
-            name="subject"
-            id="subject"
-            placeholder="Sujet de votre message"
-            className="w-full rounded-md border border-gray-300 p-2"
-            value={message?.subject}
-            onChange={(e) => {
-              setMessage({ ...message, subject: e.target.value });
+          <InputForm
+            data={{
+              display: "Sujet",
+              idName: "subject",
+              type: "text",
+              value: message.subject,
             }}
           />
         </div>
         <div>
-          <label htmlFor="message">Message</label>
-          <textarea
-            name="message"
-            id="message"
-            placeholder="Votre Message"
-            className="w-full rounded-md border border-gray-300 p-2"
-            value={message?.message}
-            onChange={(e) => {
-              setMessage({ ...message, message: e.target.value });
+          <InputForm
+            data={{
+              display: "Message",
+              idName: "message",
+              type: "textarea",
+              value: message.message,
             }}
-          ></textarea>
+          />
         </div>
         <div>
           <WaitingButton okText="Envoyer" waitingText="En cours..." />

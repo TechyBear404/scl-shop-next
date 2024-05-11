@@ -1,14 +1,10 @@
 "use client";
 // "use server";
 
-import { getProduct, updateProduct } from "~/server/db/requests";
+import { updateProduct } from "~/server/db/requests";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect, useContext, useRef } from "react";
-import type {
-  CategoriesType,
-  ProductType,
-  UpdateProductType,
-} from "~/server/db/requests";
+import { useState, useEffect, useRef } from "react";
+import type { ProductType } from "~/server/db/requests";
 
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";

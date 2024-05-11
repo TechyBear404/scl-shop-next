@@ -11,6 +11,7 @@ import {
 } from "./schema/products";
 import { categories, categoriesRelation } from "./schema/categories";
 import { messages } from "./schema/messages";
+import { employees } from "./schema/employees";
 import {
   users,
   accounts,
@@ -32,6 +33,7 @@ export const schema = {
   sessions,
   verificationTokens,
   messages,
+  employees,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

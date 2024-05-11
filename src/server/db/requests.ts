@@ -267,3 +267,21 @@ export const getMessages = async () => {
     return [];
   }
 };
+
+export const getEmployees = async () => {
+  try {
+    const response = await db.query.employees.findMany({
+      columns: {
+        createdAt: false,
+        updatedAt: false,
+      },
+    });
+
+    if (response) {
+      return { status: "success", data: response };
+    }
+  } catch (error) {
+    // console.error(error);
+    return { status: "error", data: [] };
+  }
+};
