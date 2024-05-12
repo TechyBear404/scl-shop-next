@@ -11,6 +11,7 @@ import { relations } from "drizzle-orm";
 import type { InferSelectModel } from "drizzle-orm";
 
 import { categories } from "./categories";
+import { cartsToProducts } from "./carts";
 
 export const createTable = pgTableCreator((name) => `scl-shop-next_${name}`);
 
@@ -66,6 +67,7 @@ export const productsRelations = relations(products, ({ one, many }) => ({
   }),
   ingredients: many(ingredients),
   benefits: many(benefits),
+  cartsToProducts: many(cartsToProducts),
 }));
 
 export type ProductType = InferSelectModel<typeof products>;

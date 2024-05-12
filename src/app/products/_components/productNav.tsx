@@ -22,7 +22,7 @@ export default function ProductNav({
         {selectedCategory === null ? <IoMdArrowDropright /> : ""}
         <p>Tous les produits</p>
       </Link>
-      {categories!.data.map((category) => (
+      {categories?.map((category) => (
         <Link
           key={category.id}
           href={`/products/?${new URLSearchParams({ category: category.id.toString() }).toString()}`}

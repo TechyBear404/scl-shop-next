@@ -24,7 +24,7 @@ export default function Contact() {
           const response = await createMessage(formData);
           // console.log(response?.status);
 
-          if (response!.status === "success") {
+          if (response) {
             // formData.
             // ref.current?.reset();
             setMessage({ ...message, ...blankMessage });

@@ -19,7 +19,7 @@ export const employees = createTable("employee", {
   birth_date: timestamp("birth_date").notNull(),
   job: varchar("job", { length: 256 }).notNull(),
   description: varchar("description", { length: 2048 }).notNull(),
-  imgUrl: varchar("imgUrl", { length: 256 }).notNull(),
+  imgUrl: varchar("imgUrl", { length: 256 }),
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),

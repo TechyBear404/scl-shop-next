@@ -24,7 +24,7 @@ export default function ProductsList({
         <div className="">
           {products
             ? products.map((product: ProductType) => (
-                <ProductsListElem key={product.id} product={product} />
+                <ProductsListElem key={product!.id} product={product} />
               ))
             : "Loading..."}
         </div>

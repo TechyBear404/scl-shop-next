@@ -1,5 +1,5 @@
 "use server";
-import { cache } from "react";
+import { act, cache } from "react";
 import { eq, and, sql, count } from "drizzle-orm";
 
 import { db } from "~/server/db";
@@ -10,18 +10,10 @@ import { categories } from "./schema/categories";
 import { messages } from "./schema/messages";
 import { PgSelect } from "drizzle-orm/pg-core";
 import { log } from "console";
+import { carts, cartsToProducts } from "./schema/carts";
+import { auth } from "auth";
 
 type CreateProductType = DocInsert<"products">;
-
-// export interface UpdateProductType {
-//   id?: number;
-//   name?: string;
-//   catchPhrase?: string;
-//   desc?: string;
-//   tips?: string;
-//   imgUrl?: string;
-//   category?: number;
-// }
 
 export const getProduct = async (id: number) => {
   try {
@@ -43,9 +35,9 @@ export const getProduct = async (id: number) => {
     // console.log(response);
 
     if (response) {
-      return { status: "success", data: response };
+      return response;
     } else {
-      return { status: "error", data: undefined };
+      console.log("No product found");
     }
   } catch (error) {
     console.log(error);
@@ -74,11 +66,10 @@ export const getProducts = async (category?: number) => {
     });
 
     if (response) {
-      return { status: "success", data: response };
+      return response;
     }
   } catch (error) {
-    // console.error(error);
-    return { status: "error", data: [] };
+    console.log(error);
   }
 };
 
@@ -101,34 +92,34 @@ export const createProduct = async (formData: FormData) => {
   try {
     const response = await db.insert(products).values(newProduct).returning();
     if (response) {
-      return { status: "success" };
+      return response;
     }
   } catch (error) {
-    console.error(error);
-    return { status: "error" };
+    console.log(error);
   }
-  // revalidatePath("/");
 };
 export type ProductsType = Awaited<ReturnType<typeof getProducts>>;
+export type ProductType = Awaited<ReturnType<typeof getProduct>>;
+
 // export type ProductType = ProductsType extends (infer ElementType)[]
 //   ? ElementType
 //   : never;
-export type ProductType = {
-  id: number;
-  name: string;
-  catchPhrase: string;
-  desc: string;
-  tips: string;
-  imgUrl: string;
-  price: number;
-  category:
-    | (number & {
-        id: number;
-        name: string;
-        parentCatID: number | null;
-      })
-    | null;
-};
+// export type ProductType = {
+//   id: number;
+//   name: string;
+//   catchPhrase: string;
+//   desc: string;
+//   tips: string;
+//   imgUrl: string;
+//   price: number;
+//   category:
+//     | (number & {
+//         id: number;
+//         name: string;
+//         parentCatID: number | null;
+//       })
+//     | null;
+// };
 
 export type UpdateProductType = {
   id: number;
@@ -163,14 +154,13 @@ export const updateProduct = async (formData: FormData) => {
       .returning();
 
     if (response) {
-      return { status: "success" };
+      return response;
     }
   } catch (error) {
-    // console.error(error);
-    return { status: "error" };
+    console.log(error);
   }
-  revalidatePath("/admin", "page");
-  revalidatePath("/products");
+  // revalidatePath("/admin", "page");
+  // revalidatePath("/products");
 };
 
 export const getCategories = async () => {
@@ -183,11 +173,10 @@ export const getCategories = async () => {
     });
 
     if (response) {
-      return { status: "success", data: response };
+      return response;
     }
   } catch (error) {
-    // console.error(error);
-    return { status: "error", data: [] };
+    console.log(error);
   }
 };
 
@@ -207,11 +196,10 @@ export const getCategoriesCount = async () => {
       .orderBy(categories.id);
 
     if (response) {
-      return { status: "success", data: response };
+      return response;
     }
   } catch (error) {
-    // console.error(error);
-    return { status: "error", data: [] };
+    console.log(error);
   }
 };
 
@@ -244,11 +232,10 @@ export const createMessage = async (formData: FormData) => {
     // console.log(response);
 
     if (response) {
-      return { status: "success" };
+      return response;
     }
   } catch (error) {
-    // console.error(error);
-    return { status: "error" };
+    console.log(error);
   }
 };
 
@@ -261,10 +248,11 @@ export const getMessages = async () => {
       },
     });
 
-    return response;
+    if (response) {
+      return response;
+    }
   } catch (error) {
-    // console.error(error);
-    return [];
+    console.log(error);
   }
 };
 
@@ -278,10 +266,104 @@ export const getEmployees = async () => {
     });
 
     if (response) {
-      return { status: "success", data: response };
+      return response;
     }
   } catch (error) {
-    // console.error(error);
-    return { status: "error", data: [] };
+    console.log(error);
   }
+};
+
+export const addToCart = async (formData: FormData) => {
+  console.log("hello");
+
+  const productId = parseInt(formData.get("productId") as string);
+  const qty = formData.get("productQty") as string;
+  console.log(productId, qty);
+  const session = await auth();
+  if (!session?.user) {
+    return;
+  }
+
+  try {
+    const cart = await db
+      .select({ id: carts.id })
+      .from(carts)
+      .where(
+        and(eq(carts.userId, session?.user?.id), eq(carts.status, "active")),
+      );
+    let activeCart = cart;
+    if (Array.isArray(activeCart) && activeCart.length === 0) {
+      const insertCart = await db
+        .insert(carts)
+        .values({
+          userId: session?.user?.id,
+        })
+        .returning({ id: carts.id });
+      console.log("New Cart Created");
+      activeCart = insertCart;
+    }
+    let prepare;
+    if (!activeCart[0]) {
+      console.log("No active cart");
+      return;
+    }
+    if (qty) {
+      prepare = {
+        cartId: activeCart[0].id,
+        productId: productId,
+        qty: parseInt(qty),
+      };
+    } else {
+      prepare = { cartId: activeCart[0].id, productId: productId };
+    }
+
+    const response = await db.insert(cartsToProducts).values(prepare);
+    if (response) {
+      console.log(response);
+
+      // return response;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+type Test = typeof cartsToProducts.$inferSelect;
+
+export const getCart = async () => {
+  const session = await auth();
+  if (!session?.user) {
+    return;
+  }
+  try {
+    const response = await db.query.carts.findFirst({
+      where: and(
+        eq(carts.userId, session?.user?.id),
+        eq(carts.status, "active"),
+      ),
+      with: {
+        cartToProducts: {
+          with: {
+            product: {
+              columns: {
+                createdAt: false,
+                updatedAt: false,
+              },
+            },
+          },
+        },
+      },
+    });
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export type CartType = {
+  id: number;
+  userId: string;
+  status: string;
 };

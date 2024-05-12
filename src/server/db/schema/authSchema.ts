@@ -10,6 +10,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { carts } from "./carts";
 
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -30,6 +31,7 @@ export const users = createTable("user", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
+  carts: many(carts),
 }));
 
 export const accounts = createTable(

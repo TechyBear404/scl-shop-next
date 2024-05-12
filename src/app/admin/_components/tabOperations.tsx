@@ -7,11 +7,7 @@ import { useSearchParams } from "next/navigation";
 import TabButton from "./tabButton";
 import { type CategoriesType } from "~/server/db/requests";
 
-export default function TabOperations({
-  categories,
-}: {
-  categories: CategoriesType;
-}) {
+export default function TabOperations() {
   const [activeTab, setActiveTab] = useState(1);
   const params = useSearchParams();
   const selected = params.get("selected");
@@ -37,8 +33,8 @@ export default function TabOperations({
         />
       </div>
       <div className="rounded-b-md border border-t-0 border-rose-800">
-        {activeTab === 1 && <CreateProduct categories={categories} />}
-        {activeTab === 2 && <UpdateProduct categories={categories} />}
+        {activeTab === 1 && <CreateProduct />}
+        {activeTab === 2 && <UpdateProduct />}
       </div>
     </div>
   );

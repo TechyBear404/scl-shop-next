@@ -18,6 +18,12 @@ import {
   sessions,
   verificationTokens,
 } from "./schema/authSchema";
+import {
+  carts,
+  cartsToProducts,
+  cartsRelations,
+  cartsToProductsRelations,
+} from "./schema/carts";
 
 export const schema = {
   products,
@@ -34,6 +40,10 @@ export const schema = {
   verificationTokens,
   messages,
   employees,
+  carts,
+  cartsToProducts,
+  cartsRelations,
+  cartsToProductsRelations,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

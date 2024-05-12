@@ -2,11 +2,6 @@
 import { useEffect, useState } from "react";
 import type { CategoriesType } from "~/server/db/requests";
 
-type DataType = {
-  data: CategoriesType;
-  status: string;
-};
-
 export default function SelectCategory({
   selectedCategory,
 }: {
@@ -24,10 +19,8 @@ export default function SelectCategory({
   useEffect(() => {
     fetch("/api/data/categories")
       .then((res) => res.json())
-      .then((data: DataType) => {
-        if (data && data.status === "success") {
-          setCategories(data.data);
-        }
+      .then((data: CategoriesType) => {
+        setCategories(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -49,7 +42,7 @@ export default function SelectCategory({
         }}
       >
         {/* <option value="default">Choisir une catégorie</option> */}
-        {categories?.map((category) => (
+        {categories.map((category) => (
           <option key={category?.id} value={category?.id}>
             {category?.name}
           </option>

@@ -18,7 +18,7 @@ type DataType = {
 // import { useDataContext } from "~/utils/contexts/dataContext";
 
 export default function ProductUpdateForm() {
-  const [product, setProduct] = useState<Partial<ProductType>>();
+  const [product, setProduct] = useState<ProductType>();
   // const { state, dispatch } = useDataContext();
   const params = useSearchParams();
   const selected = params.get("selected");
@@ -28,10 +28,8 @@ export default function ProductUpdateForm() {
     if (!selected) return;
     fetch(`/api/data/products/${selected}`)
       .then((res) => res.json())
-      .then((data: DataType) => {
-        if (data && data.status === "success") {
-          setProduct(data.data);
-        }
+      .then((data: ProductType) => {
+        setProduct(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -43,12 +41,11 @@ export default function ProductUpdateForm() {
       ref={ref}
       action={async (updatedProduct) => {
         const response = await updateProduct(updatedProduct);
-        if (response?.status === "success") {
+        if (response) {
           ref.current?.reset();
         } else {
           console.log("Error");
         }
-        // revalidatePath("/admin", "page");
       }}
       className="flex flex-col gap-2 bg-rose-100 p-4"
     >

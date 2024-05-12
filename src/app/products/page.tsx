@@ -10,15 +10,10 @@ export default async function HomePage({
   searchParams?: Record<string, string | string[] | undefined>;
 }) {
   let products;
-  let response;
   if (searchParams?.category) {
-    response = await getProducts(Number(searchParams.category));
+    products = await getProducts(Number(searchParams.category));
   } else {
-    response = await getProducts();
-  }
-  if (response?.status === "success") {
-    products = response.data;
-    // console.log(products);
+    products = await getProducts();
   }
 
   return (
