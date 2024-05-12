@@ -8,6 +8,10 @@ import Avatar from "~/app/_components/avatar";
 import NavLink from "./navLink";
 import { auth, signOut } from "auth";
 import { FaShoppingBasket } from "react-icons/fa";
+import { getCart } from "~/server/db/requests";
+import CartWidget from "./cartWidget";
+
+export const revalidate = 0;
 
 export default async function TopNav() {
   const session = await auth();
@@ -27,12 +31,7 @@ export default async function TopNav() {
       )}
       <div className="flex items-center gap-2">
         <Link href={"/account/cart"} className="relative px-2 text-2xl">
-          <div className="flex gap-2">
-            <div className="inline-flex items-center rounded-full border-2 border-rose-50 bg-green-500 px-1.5 py-0.5 text-xs font-bold leading-4 text-rose-50">
-              6
-            </div>
-            <FaShoppingBasket className="text-2xl" />
-          </div>
+          <CartWidget />
         </Link>
         {session ? (
           <>

@@ -1,11 +1,9 @@
 // import { useState } from "react";
-import { getCart, type CartType } from "~/server/db/requests";
+import { getCart } from "~/server/db/requests";
 import Image from "next/image";
+import Link from "next/link";
+import RemoveProductFromCart from "./_components/removeProductButton";
 
-type DataType = {
-  data: CartType;
-  status: string;
-};
 export default async function CartPage() {
   const cart = await getCart();
   console.log(cart);
@@ -14,6 +12,13 @@ export default async function CartPage() {
   const sum = cart?.cartToProducts.reduce((acc, val) => {
     return acc + val.product.price * val.qty;
   }, 0);
+
+  // function to get amount of articles (article * qty)
+  const getAmount = () => {
+    return cart?.cartToProducts.reduce((qty, val) => {
+      return qty + val.qty;
+    }, 0);
+  };
 
   return (
     <main className="min-h-screen pt-14">
@@ -35,12 +40,17 @@ export default async function CartPage() {
                 height={200}
                 className="object-cover"
               />
-              <section className="flex flex-grow p-2">
-                <div className="grow">
-                  <p>{product.product.name}</p>
-                  <p>Qté {product.qty}</p>
+              <section className="flex grow flex-col justify-between p-2">
+                <div className="flex flex-grow">
+                  <div className="grow">
+                    <p>{product.product.name}</p>
+                    <p>Qté {product.qty}</p>
+                  </div>
+                  <div>{product.product.price} €</div>
                 </div>
-                <div>{product.product.price} €</div>
+                <section>
+                  <RemoveProductFromCart productId={product.productId} />
+                </section>
               </section>
             </article>
           ))}
@@ -49,9 +59,7 @@ export default async function CartPage() {
               <div>Total: </div>
               <div>{sum} €</div>
             </div>
-            <div className="text-xl">
-              ({cart?.cartToProducts.length} articles )
-            </div>
+            <div className="text-xl">({getAmount()} articles )</div>
           </section>
         </section>
       </section>

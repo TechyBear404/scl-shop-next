@@ -1,12 +1,14 @@
-// import NextAuth from "next-auth";
-// import { authConfig } from "./auth";
+// import { NextResponse } from "next/server";
+// import type { NextRequest } from "next/server";
 
-// export default NextAuth(authConfig).auth;
-
-// export const config = {
-//   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-// };
-
+// // This function can be marked `async` if using `await` inside
 // export function middleware(request: NextRequest) {
 //   console.log(request);
+
+//   // return NextResponse.redirect(new URL("/", request.url));
 // }
+
+// // See "Matching Paths" below to learn more
+// // export const config = {
+// //   matcher: "/about/:path*",
+// // };

@@ -37,11 +37,10 @@ export default function ProductCard({ product }: { product: ProductType }) {
             {product.name}
           </h2>
         </div>
-        <div className="flex  items-center justify-between ">
+        <div className="flex  flex-grow items-end justify-between">
           <p className="text-rose-900/90">{product.price} €</p>
-          <div className="flex items-center">
-            <CartButton productId={product.id} />
-          </div>
+
+          <CartButton productId={product.id} />
         </div>
       </div>
     </div>

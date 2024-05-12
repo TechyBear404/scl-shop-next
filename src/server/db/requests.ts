@@ -317,18 +317,22 @@ export const addToCart = async (formData: FormData) => {
       prepare = { cartId: activeCart[0].id, productId: productId };
     }
 
-    const response = await db.insert(cartsToProducts).values(prepare);
+    const response = await db
+      .insert(cartsToProducts)
+      .values(prepare)
+      .onConflictDoUpdate({
+        target: [cartsToProducts.cartId, cartsToProducts.productId],
+        set: { qty: sql`${cartsToProducts.qty} + ${prepare.qty}` },
+      });
     if (response) {
       console.log(response);
-
+      revalidatePath("/api/cart");
       // return response;
     }
   } catch (error) {
     console.log(error);
   }
 };
-
-type Test = typeof cartsToProducts.$inferSelect;
 
 export const getCart = async () => {
   const session = await auth();
@@ -362,8 +366,41 @@ export const getCart = async () => {
   }
 };
 
-export type CartType = {
-  id: number;
-  userId: string;
-  status: string;
+export type CartType = Awaited<ReturnType<typeof getCart>>;
+
+// export type CartType = {
+//   id: number;
+//   userId: string;
+//   status: string;
+// };
+
+export const removeProductFromCart = async (formData: FormData) => {
+  const productId = parseInt(formData.get("productId") as string);
+  const session = await auth();
+  if (!session?.user) {
+    return;
+  }
+  try {
+    const cart = await db
+      .select({ id: carts.id })
+      .from(carts)
+      .where(
+        and(eq(carts.userId, session?.user?.id), eq(carts.status, "active")),
+      );
+    const response = await db
+      .delete(cartsToProducts)
+      .where(
+        and(
+          eq(cartsToProducts.productId, productId),
+          eq(cartsToProducts.cartId, cart[0]!.id),
+        ),
+      );
+    if (response) {
+      // return response;
+      console.log(response);
+      revalidatePath("/api/cart");
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
