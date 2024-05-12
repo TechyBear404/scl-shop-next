@@ -1,7 +1,7 @@
 "use client";
-import { FaShoppingBasket } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function QtySelector() {
   const [qty, setQty] = useState(1);

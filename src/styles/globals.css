@@ -48,3 +48,8 @@ body {
 main#contactPage label {
   @apply pl-2;
 }
+
+.Toastify__toast-container--top-right {
+  top: 4rem !important;
+  right: 1rem !important;
+}

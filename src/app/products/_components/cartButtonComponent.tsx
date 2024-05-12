@@ -1,11 +1,20 @@
 import { addToCart } from "~/server/db/requests";
 import QtySelector from "./qtySelector";
 import { FaShoppingBasket } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function CartButton({ productId }: { productId: number }) {
+  const handleAddToCart = async (formData: FormData) => {
+    try {
+      await addToCart(formData);
+      toast.success("Produit ajouté au panier");
+    } catch (error) {
+      toast.error("Erreur lors de l'ajout au panier");
+    }
+  };
   return (
     <div className="">
-      <form action={addToCart} className=" flex gap-2">
+      <form action={handleAddToCart} className=" flex gap-2">
         <input
           type="hidden"
           id="productId"
