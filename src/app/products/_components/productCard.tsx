@@ -11,7 +11,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
   }
 
   return (
-    <div className="group flex h-80 w-64 flex-col overflow-hidden rounded-md shadow-md transition duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:duration-300 focus:shadow-2xl">
+    <div className="group flex h-80 w-64 flex-col overflow-hidden rounded-md shadow-md transition duration-500 ease-in-out hover:shadow-rose-800/50 hover:duration-300 focus:shadow-rose-800">
       <figure className="relative flex w-full items-center justify-center ">
         <Image
           src={product.imgUrl} // Access the 'data' property of 'product.imgUrl' and assert its type as string
@@ -37,8 +37,11 @@ export default function ProductCard({ product }: { product: ProductType }) {
             {product.name}
           </h2>
         </div>
-        <div className="flex  flex-grow items-end justify-between">
-          <p className="text-rose-900/90">{product.price} €</p>
+        <div
+          className="flex  flex-grow items-end justify-between"
+          title="Prix de l'article"
+        >
+          <p className="text-2xl text-rose-950">{product.price} €</p>
 
           <CartButton productId={product.id} />
         </div>

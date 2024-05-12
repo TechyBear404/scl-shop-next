@@ -8,7 +8,8 @@ export default function QtySelector() {
   return (
     <section className="text-basis col-span-2 flex h-4 items-center justify-center">
       <IoIosArrowBack
-        className="h-full rounded-l-md bg-rose-800 text-sm text-rose-50"
+        className=" h-full rounded-l-md bg-rose-800 text-sm text-white hover:cursor-pointer hover:saturate-150"
+        title="Diminuer la quantité"
         onClick={() => setQty(qty - 1)}
       />
       <input
@@ -20,7 +21,8 @@ export default function QtySelector() {
         title="Quantité"
       />
       <IoIosArrowForward
-        className="h-full rounded-r-md bg-rose-800 text-sm text-rose-50"
+        className="h-full rounded-r-md bg-rose-800 text-sm text-white hover:cursor-pointer hover:saturate-150"
+        title="Augmenter la quantité"
         onClick={() => setQty(qty + 1)}
       />
     </section>
