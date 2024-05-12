@@ -31,21 +31,39 @@ export default function Footer() {
         <section className="flex w-full flex-wrap justify-around">
           <div className="flex flex-col">
             <h2 className="underline">À propos de nous</h2>
-            <Link href={""}>Notre histoire</Link>
-            <Link href={""}>Nos valeurs</Link>
-            <Link href={""}>Notre équipes</Link>
+            <Link className="hover:underline" href={""}>
+              Notre histoire
+            </Link>
+            <Link className="hover:underline" href={""}>
+              Nos valeurs
+            </Link>
+            <Link className="hover:underline" href={"/team"}>
+              Notre équipes
+            </Link>
           </div>
           <div className="flex flex-col">
             <h2 className="underline">Service client</h2>
-            <Link href={""}>Contact</Link>
-            <Link href={""}>Livraison</Link>
-            <Link href={""}>Retour</Link>
+            <Link className="hover:underline" href={"/contact"}>
+              Contact
+            </Link>
+            <Link className="hover:underline" href={""}>
+              Livraison
+            </Link>
+            <Link className="hover:underline" href={""}>
+              Retour
+            </Link>
           </div>
           <div className="flex flex-col">
             <h2 className="underline">Informations légales</h2>
-            <Link href={""}>Conditions générales de vente</Link>
-            <Link href={""}>Politique de confidentialité</Link>
-            <Link href={""}>Cookies</Link>
+            <Link className="hover:underline" href={""}>
+              Conditions générales de vente
+            </Link>
+            <Link className="hover:underline" href={""}>
+              Politique de confidentialité
+            </Link>
+            <Link className="hover:underline" href={""}>
+              Cookies
+            </Link>
           </div>
           <div className="flex flex-col">
             <h2 className="underline">Contacts</h2>

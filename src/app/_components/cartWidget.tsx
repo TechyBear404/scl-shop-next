@@ -7,6 +7,7 @@ export default async function CartWidget() {
   const cart = await getCart();
 
   const getAmount = () => {
+    if (!cart) return 0;
     return cart?.cartToProducts.reduce((qty, val) => {
       return qty + val.qty;
     }, 0);

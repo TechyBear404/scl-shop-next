@@ -22,7 +22,7 @@ export default async function TopNav() {
         Olfactaire
       </Link>
       <div className="flex-grow"></div>
-      <NavLink link={{ href: "/", name: "Acceuil" }} />
+      <NavLink link={{ href: "/", name: "Accueil" }} />
       <NavLink link={{ href: "/products", name: "Produits" }} />
       <NavLink link={{ href: "/contact", name: "Contact" }} />
       <NavLink link={{ href: "/team", name: "L'équipe" }} />

@@ -20,7 +20,7 @@ export default function HomePage() {
         </figure>
         <main className="m-auto max-w-5xl">
           <section className="productsSection flex flex-wrap gap-10">
-            Acceuil
+            Accueil
           </section>
         </main>
       </section>
