@@ -3,6 +3,8 @@ import { useRef, useState } from "react";
 import InputForm from "~/app/_components/inputForm";
 import WaitingButton from "~/app/admin/_components/waitingButton";
 import { type NewMessageType, createMessage } from "~/server/db/requests";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const blankMessage: NewMessageType = {
   first_name: "",
@@ -16,25 +18,20 @@ export default function Contact() {
   const [message, setMessage] = useState<NewMessageType>(blankMessage);
   const ref = useRef<HTMLFormElement>(null);
 
+  const handlecreateMessage = async (formData: FormData) => {
+    try {
+      await createMessage(formData);
+      toast.success("Le message a été envoyé avec succès");
+    } catch (error) {
+      toast.error("Erreur lors de l'envoi du message");
+    }
+  };
+
   return (
     <main id="contactPage" className="mx-auto mt-14 min-h-screen max-w-3xl ">
       <form
         ref={ref}
-        action={async (formData: FormData) => {
-          const response = await createMessage(formData);
-          // console.log(response?.status);
-
-          if (response) {
-            // formData.
-            // ref.current?.reset();
-            setMessage({ ...message, ...blankMessage });
-            // console.log(response);
-            // success
-            // ref.current!.reset();
-          } else {
-            // fail
-          }
-        }}
+        action={handlecreateMessage}
         className="mt-10 flex flex-col gap-6 rounded-md bg-white p-6"
       >
         <h1 className="text-3xl">Nous Contacter...</h1>
