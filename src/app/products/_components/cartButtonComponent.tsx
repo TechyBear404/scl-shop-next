@@ -1,4 +1,4 @@
-import { addToCart } from "~/server/db/requests";
+import { addProductToCart } from "~/actions/addProductToCart";
 import QtySelector from "./qtySelector";
 import { FaShoppingBasket } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 export default function CartButton({ productId }: { productId: number }) {
   const handleAddToCart = async (formData: FormData) => {
     try {
-      await addToCart(formData);
+      await addProductToCart(formData);
       toast.success("Produit ajouté au panier");
     } catch (error) {
       toast.error("Erreur lors de l'ajout au panier");

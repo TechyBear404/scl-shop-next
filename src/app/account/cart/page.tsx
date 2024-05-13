@@ -1,14 +1,12 @@
 // import { useState } from "react";
-import { getCart } from "~/server/db/requests";
+import { getCart } from "~/actions/getCart";
 import Image from "next/image";
-import Link from "next/link";
 import RemoveProductFromCart from "./_components/removeProductButton";
 
 export default async function CartPage() {
   const cart = await getCart();
   console.log(cart);
 
-  //  const [ cart, setCart ] = useState<CartType>([]);
   const sum = cart?.cartToProducts.reduce((acc, val) => {
     return acc + val.product.price * val.qty;
   }, 0);
@@ -31,8 +29,6 @@ export default async function CartPage() {
               key={product.productId}
               className="flex h-40 overflow-hidden rounded-md border border-gray-200 bg-rose-50 shadow-md"
             >
-              {/* <h3>{product.productId}</h3> */}
-
               <Image
                 src={product.product.imgUrl}
                 alt="alt"

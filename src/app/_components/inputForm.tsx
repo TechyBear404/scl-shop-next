@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useFormStatus } from "react-dom";
 
 type DataType = {
   display: string;
@@ -10,13 +9,24 @@ type DataType = {
   value?: string | number;
 };
 
-export default function InputForm({ data }: { data: DataType }) {
-  const [inputValue, setInputValue] = useState<DataType>();
+export default function InputForm({
+  data,
+  error,
+}: {
+  data: DataType;
+  error?: string[] | undefined;
+}) {
+  const [inputValue, setInputValue] = useState<DataType>({
+    display: "",
+    idName: "",
+    type: "",
+    value: "",
+  });
   // const { pending } = useFormStatus();
 
   useEffect(() => {
     // if (data.value) {
-    setInputValue(data);
+    setInputValue((prev) => ({ ...prev, ...data }));
     // }
   }, [data]);
 
@@ -36,6 +46,15 @@ export default function InputForm({ data }: { data: DataType }) {
             name={inputValue.idName}
             className="w-full rounded-md border border-gray-300 p-2"
           />
+          <ul className="">
+            {error
+              ? error.map((err, index) => (
+                  <li key={index} className="text-red-500">
+                    {err}
+                  </li>
+                ))
+              : ""}
+          </ul>
         </>
       );
     }
@@ -55,6 +74,15 @@ export default function InputForm({ data }: { data: DataType }) {
             setInputValue({ ...inputValue, value: e.target.value });
           }}
         />
+        <ul className="">
+          {error
+            ? error.map((err, index) => (
+                <li key={index} className="text-red-500">
+                  {err}
+                </li>
+              ))
+            : ""}
+        </ul>
       </>
     );
   }

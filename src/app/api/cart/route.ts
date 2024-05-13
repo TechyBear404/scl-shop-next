@@ -1,5 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
-import { addToCart, getCart, getProducts } from "~/server/db/requests";
+import { getProducts } from "~/actions/getProducts";
+import { getCart } from "~/actions/getCart";
+import { addProductToCart } from "~/actions/addProductToCart";
 
 export async function GET(request: Request) {
   const cart = await getCart();

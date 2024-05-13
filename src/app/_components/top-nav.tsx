@@ -7,8 +7,6 @@ import Avatar from "~/app/_components/avatar";
 
 import NavLink from "./navLink";
 import { auth, signOut } from "auth";
-import { FaShoppingBasket } from "react-icons/fa";
-import { getCart } from "~/server/db/requests";
 import CartWidget from "./cartWidget";
 
 export const revalidate = 0;

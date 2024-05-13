@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { IoMdArrowDropright } from "react-icons/io";
 import { useSearchParams } from "next/navigation";
-import { type CategoriesCountType } from "~/server/db/requests";
+import { type CategoriesCountType } from "~/types/types";
 
 export default function ProductNav({
   categories,

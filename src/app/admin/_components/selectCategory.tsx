@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import type { CategoriesType } from "~/server/db/requests";
+import type { CategoriesType } from "~/types/types";
 
 export default function SelectCategory({
   selectedCategory,
@@ -8,7 +8,7 @@ export default function SelectCategory({
   selectedCategory?: number;
 }) {
   const [category, setCategory] = useState<number>(2);
-  const [categories, setCategories] = useState<CategoriesType>([]);
+  const [categories, setCategories] = useState<CategoriesType[]>([]);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -19,7 +19,7 @@ export default function SelectCategory({
   useEffect(() => {
     fetch("/api/data/categories")
       .then((res) => res.json())
-      .then((data: CategoriesType) => {
+      .then((data: CategoriesType[]) => {
         setCategories(data);
       })
       .catch((error) => {
@@ -41,7 +41,6 @@ export default function SelectCategory({
           setCategory(Number(e.target.value));
         }}
       >
-        {/* <option value="default">Choisir une catégorie</option> */}
         {categories.map((category) => (
           <option key={category?.id} value={category?.id}>
             {category?.name}

@@ -2,7 +2,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { removeProductFromCart } from "~/server/db/requests";
+import { removeProductFromCart } from "~/actions/removeProductFromCart";
 
 export default function RemoveProductFromCart({
   productId,

@@ -1,6 +1,5 @@
-import { getProducts } from "~/server/db/requests";
+import { getProducts } from "~/actions/getProducts";
 import ProductCard from "~/app/products/_components/productCard";
-import ProductDetails from "~/app/products/_components/productDetails";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";

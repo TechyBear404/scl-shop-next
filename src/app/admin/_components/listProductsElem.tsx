@@ -1,10 +1,10 @@
 // "use client";
 import Link from "next/link";
-import type { ProductType } from "~/server/db/requests";
+import type { GetProductType } from "~/types/types";
 export default function ProductsListElem({
   product,
 }: {
-  product: ProductType;
+  product: GetProductType;
 }) {
   return (
     <Link

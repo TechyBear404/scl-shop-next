@@ -1,11 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-
-import { addToCart, type ProductType } from "~/server/db/requests";
 import CartButton from "./cartButtonComponent";
+import type { GetProductType } from "~/types/types";
 
-export default function ProductCard({ product }: { product: ProductType }) {
+export default function ProductCard({ product }: { product: GetProductType }) {
   if (!product) {
     return null;
   }

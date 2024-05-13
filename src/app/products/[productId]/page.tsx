@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import BackButton from "~/app/products/_components/backButton";
-import { getProduct } from "~/server/db/requests";
-import type { ProductType } from "~/server/db/requests";
+import { getProduct } from "~/actions/getProduct";
+import type { GetProductType } from "~/types/types";
 
 export default async function ProductDetails({
   params,
 }: {
   params: { productId: string };
 }) {
-  const product: ProductType | undefined = await getProduct(
+  const product: GetProductType | undefined = await getProduct(
     Number(params.productId),
   );
   return (

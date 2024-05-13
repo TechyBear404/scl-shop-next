@@ -1,17 +1,12 @@
 "use client";
 // "use server";
 
-import { createProduct } from "~/server/db/requests";
+import { createProduct } from "~/actions/createProduct";
 import { useRef, useState } from "react";
-import type { ProductType, CategoriesType } from "~/server/db/requests";
-// import type { Doc, DocInsert } from "~/server/db/schema/dbTypes";
-import { revalidatePath } from "next/cache";
-
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
 import InputForm from "../../_components/inputForm";
-
-// type ProductType = Doc<"products">;
+import { type ProductType } from "~/types/types";
 
 export default function CreateProductForm() {
   const [product, setProduct] = useState<Partial<ProductType>>();

@@ -1,6 +1,5 @@
-import { randomInt } from "crypto";
 import Image from "next/image";
-import { getEmployees } from "~/server/db/requests";
+import { getEmployees } from "~/actions/getEmployees";
 
 const getAge = (birthDate: Date) => {
   const today = new Date();

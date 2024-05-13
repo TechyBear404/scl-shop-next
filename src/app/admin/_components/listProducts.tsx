@@ -1,6 +1,6 @@
 "use client";
 export const dynamic = "force-dynamic";
-import type { ProductType } from "~/server/db/requests";
+import type { ProductType } from "~/types/types";
 import ProductsListElem from "./listProductsElem";
 
 export default function ProductsList({
@@ -8,8 +8,6 @@ export default function ProductsList({
 }: {
   products: ProductType[] | undefined;
 }) {
-  // const { state } = useDataContext();
-
   return (
     <div id="productsTable" className="w-full ">
       <div className=" rounded-md  border border-rose-800">
@@ -24,7 +22,7 @@ export default function ProductsList({
         <div className="">
           {products
             ? products.map((product: ProductType) => (
-                <ProductsListElem key={product!.id} product={product} />
+                <ProductsListElem key={product.id} product={product} />
               ))
             : "Loading..."}
         </div>

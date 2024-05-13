@@ -1,10 +1,10 @@
 "use client";
 // "use server";
 
-import { updateProduct } from "~/server/db/requests";
+import { updateProduct } from "~/actions/updateProduct";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import type { ProductType } from "~/server/db/requests";
+import type { ProductType } from "~/types/types";
 
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
@@ -23,6 +23,45 @@ export default function ProductUpdateForm() {
   const params = useSearchParams();
   const selected = params.get("selected");
   const ref = useRef<HTMLFormElement>(null);
+
+  const formInputs = [
+    {
+      display: "Nom",
+      type: "text",
+      idName: "name",
+      value: product?.name,
+    },
+    {
+      display: "Phrase d'accroche",
+      type: "text",
+      idName: "catchPhrase",
+      value: product?.catchPhrase,
+    },
+    {
+      display: "Description",
+      type: "textarea",
+      idName: "desc",
+      value: product?.desc,
+    },
+    {
+      display: "Conseils d'utilisation",
+      type: "textarea",
+      idName: "tips",
+      value: product?.tips,
+    },
+    {
+      display: "Image",
+      type: "text",
+      idName: "imgUrl",
+      value: product?.imgUrl,
+    },
+    {
+      display: "Prix",
+      type: "number",
+      idName: "price",
+      value: product?.price?.toString(),
+    },
+  ];
 
   useEffect(() => {
     if (!selected) return;
