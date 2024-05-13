@@ -5,7 +5,6 @@ import RemoveProductFromCart from "./_components/removeProductButton";
 
 export default async function CartPage() {
   const cart = await getCart();
-  console.log(cart);
 
   const sum = cart?.cartToProducts.reduce((acc, val) => {
     return acc + val.product.price * val.qty;

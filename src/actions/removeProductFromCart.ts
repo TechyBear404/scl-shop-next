@@ -3,6 +3,7 @@ import { db } from "~/server/db";
 import { carts, cartsToProducts } from "~/server/db/schema/carts";
 import { auth } from "auth";
 import { and, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const removeProductFromCart = async (formData: FormData) => {
   const productId = parseInt(formData.get("productId") as string);
@@ -26,7 +27,8 @@ export const removeProductFromCart = async (formData: FormData) => {
         ),
       );
     if (response) {
-      return response;
+      // return response;
+      revalidatePath("/");
     }
   } catch (error) {
     console.log(error);

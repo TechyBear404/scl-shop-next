@@ -3,13 +3,11 @@ import { db } from "~/server/db";
 import { auth } from "auth";
 import { and, eq, sql } from "drizzle-orm";
 import { carts, cartsToProducts } from "~/server/db/schema/carts";
+import { revalidatePath } from "next/cache";
 
 export const addProductToCart = async (formData: FormData) => {
-  console.log("hello");
-
   const productId = parseInt(formData.get("productId") as string);
   const qty = formData.get("productQty") as string;
-  console.log(productId, qty);
   const session = await auth();
   if (!session?.user) {
     return;
@@ -56,8 +54,8 @@ export const addProductToCart = async (formData: FormData) => {
         set: { qty: sql`${cartsToProducts.qty} + ${prepare.qty}` },
       });
     if (response) {
-      // revalidatePath("/api/cart");
-      return response;
+      revalidatePath("/");
+      // return response;
     }
   } catch (error) {
     console.log(error);
