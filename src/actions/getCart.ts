@@ -29,6 +29,8 @@ export const getCart = async () => {
       },
     });
     if (response) {
+      // console.log(response);
+
       return response;
     }
   } catch (error) {

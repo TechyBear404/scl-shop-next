@@ -5,7 +5,7 @@ import CreateProduct from "~/app/admin/_components/createProduct";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import TabButton from "./tabButton";
-import type { CategoriesType } from "~/types/types";
+import type { CategoriesType } from "~/utils/types";
 
 export default function TabOperations() {
   const [activeTab, setActiveTab] = useState(1);

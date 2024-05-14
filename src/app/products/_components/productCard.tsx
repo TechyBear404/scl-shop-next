@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CartButton from "./cartButtonComponent";
-import type { GetProductType } from "~/types/types";
+import type { GetProductType } from "~/utils/types";
 
 export default function ProductCard({ product }: { product: GetProductType }) {
   if (!product) {

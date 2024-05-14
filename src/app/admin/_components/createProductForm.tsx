@@ -6,20 +6,40 @@ import { useRef, useState } from "react";
 import WaitingButton from "./waitingButton";
 import SelectCategory from "./selectCategory";
 import InputForm from "../../_components/inputForm";
-import { type ProductType } from "~/types/types";
+import { type ZodFormattedError } from "zod";
+import { insertProductSchema } from "~/utils/validations";
+import type { InsertProductType } from "~/utils/types";
+import { toast } from "react-toastify";
 
 export default function CreateProductForm() {
-  const [product, setProduct] = useState<Partial<ProductType>>();
+  const [product, setProduct] = useState<InsertProductType>();
+  const [errors, setErrors] = useState<ZodFormattedError<InsertProductType>>();
+
   const ref = useRef<HTMLFormElement>(null);
+
+  const handleCreateForm = async (formData: FormData) => {
+    const newProduct = Object.fromEntries(formData.entries());
+
+    const validatedData = insertProductSchema.safeParse(newProduct);
+    if (!validatedData.success) {
+      const newErrors = validatedData.error.format();
+      setErrors({ ...errors, ...newErrors });
+      return;
+    }
+    try {
+      await createProduct(validatedData.data);
+      toast.success("Le message a été envoyé avec succès");
+      setErrors(undefined);
+      setProduct(undefined);
+    } catch (error) {
+      toast.error("Erreur lors de l'envoi du message");
+    }
+  };
 
   return (
     <form
       ref={ref}
-      action={async (formData) => {
-        ref.current?.reset();
-        // input validation
-        await createProduct(formData);
-      }}
+      action={handleCreateForm}
       className="flex flex-col gap-2 bg-rose-100 p-4"
     >
       <div>

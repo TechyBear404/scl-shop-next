@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BackButton from "~/app/products/_components/backButton";
 import { getProduct } from "~/actions/getProduct";
-import type { GetProductType } from "~/types/types";
+import type { GetProductType } from "~/utils/types";
 
 export default async function ProductDetails({
   params,

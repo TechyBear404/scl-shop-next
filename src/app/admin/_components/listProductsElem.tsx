@@ -1,6 +1,6 @@
 // "use client";
 import Link from "next/link";
-import type { GetProductType } from "~/types/types";
+import type { GetProductType } from "~/utils/types";
 export default function ProductsListElem({
   product,
 }: {

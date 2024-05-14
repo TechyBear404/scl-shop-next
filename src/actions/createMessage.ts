@@ -1,19 +1,19 @@
 "use server";
 import { db } from "~/server/db";
 import { messages } from "~/server/db/schema/messages";
+import { newMessageSchema } from "~/utils/validations";
 
-export type NewMessageType = typeof messages.$inferInsert;
-export const createMessage = async (formData: FormData) => {
-  const newMessage: NewMessageType = {
-    first_name: formData.get("first_name") as string,
-    last_name: formData.get("last_name") as string,
-    email: formData.get("email") as string,
-    subject: formData.get("subject") as string,
-    message: formData.get("message") as string,
-  };
-
+// export type NewMessageType = typeof messages.$inferInsert;
+export const createMessage = async (formData: unknown) => {
+  const validatedData = newMessageSchema.safeParse(formData);
+  if (!validatedData.success) {
+    throw new Error("Validation Error");
+  }
   try {
-    const response = await db.insert(messages).values(newMessage).returning();
+    const response = await db
+      .insert(messages)
+      .values(validatedData.data)
+      .returning();
 
     if (response) {
       return response;

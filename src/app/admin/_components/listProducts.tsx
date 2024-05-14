@@ -1,6 +1,6 @@
 "use client";
 export const dynamic = "force-dynamic";
-import type { ProductType } from "~/types/types";
+import type { ProductType } from "~/utils/types";
 import ProductsListElem from "./listProductsElem";
 
 export default function ProductsList({

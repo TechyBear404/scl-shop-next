@@ -2,29 +2,27 @@
 import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
 import { products } from "~/server/db/schema/products";
+import { updateProductSchema } from "~/utils/validations";
 
-export const updateProduct = async (formData: FormData) => {
-  const product = {
-    id: parseInt(formData.get("id") as string),
-    name: formData.get("name") as string,
-    catchPhrase: formData.get("catchPhrase") as string,
-    desc: formData.get("desc") as string,
-    tips: formData.get("tips") as string,
-    imgUrl: formData.get("imgUrl") as string,
-    price: parseInt(formData.get("price") as string),
-    category: formData.get("category")
-      ? parseInt(formData.get("category") as string)
-      : null,
-  };
+export const updateProduct = async (formData: unknown) => {
+  const validatedData = updateProductSchema.safeParse(formData);
+
+  if (!validatedData.success) {
+    console.log(validatedData.error.format());
+
+    throw new Error("Validation Error");
+  }
 
   try {
     const response = await db
       .update(products)
-      .set(product)
-      .where(eq(products.id, product.id))
+      .set(validatedData.data)
+      .where(eq(products.id, validatedData.data.id))
       .returning();
 
     if (response) {
+      console.log(response);
+
       return response;
     }
   } catch (error) {

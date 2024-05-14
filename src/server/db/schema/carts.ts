@@ -10,7 +10,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-import type { InferSelectModel } from "drizzle-orm";
 import { users } from "./authSchema";
 import { products } from "./products";
 

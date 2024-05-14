@@ -6,31 +6,10 @@ import { createMessage } from "~/actions/createMessage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { type ZodFormattedError, z } from "zod";
-import { type MessagesType } from "~/types/types";
+import { newMessageSchema } from "~/utils/validations";
+import { type NewMessageType } from "~/utils/types";
 
-type NewMessageSchemaType = z.infer<typeof NewMessageSchema>;
-
-const NewMessageSchema = z.object({
-  first_name: z
-    .string()
-    .min(2, { message: "Minimum 2 charactéres" })
-    .max(50, { message: "Maximum 50 charactéres" }),
-  last_name: z
-    .string()
-    .min(2, { message: "Minimum 2 charactéres" })
-    .max(50, { message: "Maximum 50 charactéres" }),
-  email: z.string().email({ message: "Email invalide" }),
-  subject: z
-    .string()
-    .min(2, { message: "Minimum 2 charactéres" })
-    .max(50, { message: "Maximum 50 charactéres" }),
-  message: z
-    .string()
-    .min(2, { message: "Minimum 2 charactéres" })
-    .max(500, { message: "Maximum 500 charactéres" }),
-});
-
-const initFormData: MessagesType = {
+const initFormData = {
   first_name: "",
   last_name: "",
   email: "",
@@ -39,34 +18,29 @@ const initFormData: MessagesType = {
 };
 
 export default function Contact() {
-  const [data, setData] = useState<NewMessageSchemaType>();
-  const [errors, setErrors] =
-    useState<ZodFormattedError<NewMessageSchemaType>>();
+  const [data, setData] = useState<NewMessageType>(initFormData);
+  const [errors, setErrors] = useState<ZodFormattedError<NewMessageType>>();
   const ref = useRef<HTMLFormElement>(null);
 
   const handlecreateMessage = async (formData: FormData) => {
-    const newMessage = {
-      first_name: formData.get("first_name"),
-      last_name: formData.get("last_name"),
-      email: formData.get("email"),
-      subject: formData.get("subject"),
-      message: formData.get("message"),
-    };
+    const newMessage = Object.fromEntries(formData.entries());
 
-    const result = NewMessageSchema.safeParse(newMessage);
+    const result = newMessageSchema.safeParse(newMessage);
 
     if (!result.success) {
       const newErrors = result.error.format();
-      setErrors(newErrors);
-    } else {
-      try {
-        await createMessage(formData);
-        toast.success("Le message a été envoyé avec succès");
-        setErrors(undefined);
-        setData({ ...formData, ...initFormData });
-      } catch (error) {
-        toast.error("Erreur lors de l'envoi du message");
-      }
+      // console.log(newErrors);
+
+      setErrors({ ...errors, ...newErrors });
+      return;
+    }
+    try {
+      await createMessage(result.data);
+      toast.success("Le message a été envoyé avec succès");
+      setErrors(undefined);
+      setData({ ...data, ...formData });
+    } catch (error) {
+      toast.error("Erreur lors de l'envoi du message");
     }
   };
 
@@ -89,7 +63,7 @@ export default function Contact() {
                 display: "Prénom",
                 idName: "first_name",
                 type: "text",
-                value: data?.first_name,
+                value: data.first_name,
               }}
               error={errors?.first_name?._errors}
             />
@@ -100,7 +74,7 @@ export default function Contact() {
                 display: "Nom",
                 idName: "last_name",
                 type: "text",
-                value: data?.last_name,
+                value: data.last_name,
               }}
               error={errors?.last_name?._errors}
             />
@@ -112,7 +86,7 @@ export default function Contact() {
               display: "Email",
               idName: "email",
               type: "email",
-              value: data?.email,
+              value: data.email,
             }}
             error={errors?.email?._errors}
           />
@@ -123,7 +97,7 @@ export default function Contact() {
               display: "Sujet",
               idName: "subject",
               type: "text",
-              value: data?.subject,
+              value: data.subject,
             }}
             error={errors?.subject?._errors}
           />
@@ -134,7 +108,7 @@ export default function Contact() {
               display: "Message",
               idName: "message",
               type: "textarea",
-              value: data?.message,
+              value: data.message,
             }}
             error={errors?.message?._errors}
           />

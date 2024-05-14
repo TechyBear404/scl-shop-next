@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import type { CategoriesType } from "~/types/types";
+import type { CategoriesType } from "~/utils/types";
 
 export default function SelectCategory({
   selectedCategory,
