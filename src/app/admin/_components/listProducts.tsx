@@ -1,12 +1,12 @@
 "use client";
 export const dynamic = "force-dynamic";
-import type { ProductType } from "~/utils/types";
+import type { SelectProductType } from "~/utils/types";
 import ProductsListElem from "./listProductsElem";
 
 export default function ProductsList({
   products,
 }: {
-  products: ProductType[] | undefined;
+  products: SelectProductType[] | undefined;
 }) {
   return (
     <div id="productsTable" className="w-full ">
@@ -21,7 +21,7 @@ export default function ProductsList({
 
         <div className="">
           {products
-            ? products.map((product: ProductType) => (
+            ? products.map((product) => (
                 <ProductsListElem key={product.id} product={product} />
               ))
             : "Loading..."}

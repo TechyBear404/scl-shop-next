@@ -24,8 +24,9 @@ export const newMessageSchema = z.object({
 });
 
 export const insertProductSchema = createInsertSchema(products).extend({
-  price: z.coerce.number().optional(),
-  category: z.coerce.number().optional(),
+  id: z.coerce.number().optional(),
+  price: z.coerce.number(),
+  category: z.coerce.number(),
 });
 export const selectProductSchema = createSelectSchema(products);
 export const updateProductSchema = createInsertSchema(products)

@@ -30,10 +30,17 @@ export default function ProductCard({ product }: { product: GetProductType }) {
       <div className="flex grow flex-col bg-white p-4  text-xl">
         <div className="grow">
           <p className="text-xs font-semibold uppercase text-rose-900/60">
-            {product.category?.name}
+            <Link
+              className="hover:underline"
+              href={`/products?category=${product.category?.id}`}
+            >
+              {product.category?.name}
+            </Link>
           </p>
           <h2 className=" truncate font-bold text-rose-900/90">
-            {product.name}
+            <Link className="hover:underline" href={`/products/${product.id}`}>
+              {product.name}
+            </Link>
           </h2>
         </div>
         <div

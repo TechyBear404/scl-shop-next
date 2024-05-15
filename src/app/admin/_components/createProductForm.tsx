@@ -11,8 +11,18 @@ import { insertProductSchema } from "~/utils/validations";
 import type { InsertProductType } from "~/utils/types";
 import { toast } from "react-toastify";
 
+const initFormData: InsertProductType = {
+  name: "",
+  catchPhrase: "",
+  desc: "",
+  tips: "",
+  imgUrl: "",
+  price: 0,
+  category: 0,
+};
+
 export default function CreateProductForm() {
-  const [product, setProduct] = useState<InsertProductType>();
+  const [product, setProduct] = useState<InsertProductType>(initFormData);
   const [errors, setErrors] = useState<ZodFormattedError<InsertProductType>>();
 
   const ref = useRef<HTMLFormElement>(null);
@@ -21,6 +31,8 @@ export default function CreateProductForm() {
     const newProduct = Object.fromEntries(formData.entries());
 
     const validatedData = insertProductSchema.safeParse(newProduct);
+    console.log(validatedData);
+
     if (!validatedData.success) {
       const newErrors = validatedData.error.format();
       setErrors({ ...errors, ...newErrors });
@@ -28,11 +40,11 @@ export default function CreateProductForm() {
     }
     try {
       await createProduct(validatedData.data);
-      toast.success("Le message a été envoyé avec succès");
+      toast.success("Le produit a été crée avec succès");
       setErrors(undefined);
-      setProduct(undefined);
+      setProduct(initFormData);
     } catch (error) {
-      toast.error("Erreur lors de l'envoi du message");
+      toast.error("Erreur lors de la création du produit");
     }
   };
 
@@ -42,17 +54,14 @@ export default function CreateProductForm() {
       action={handleCreateForm}
       className="flex flex-col gap-2 bg-rose-100 p-4"
     >
-      <div>
-        <input type="hidden" id="id" name="id" value={product?.id} />
-        <InputForm
-          data={{
-            display: "Nom",
-            type: "text",
-            value: product?.name,
-            idName: "name",
-          }}
-        />
-      </div>
+      <InputForm
+        data={{
+          display: "Nom",
+          type: "text",
+          value: product?.name,
+          idName: "name",
+        }}
+      />
       <InputForm
         data={{
           display: "Phrase d'accroche",

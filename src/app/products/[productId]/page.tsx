@@ -26,29 +26,31 @@ export default async function ProductDetails({
               height={500}
             />
           </figure>
-          <section className="p-6">
-            <Link
-              href={`/products?category=${product?.category!.id}`}
-              className="text-nowrap"
-            >
-              <p className="text-xs font-semibold uppercase text-rose-900/60">
+          <section className="flex flex-col p-6">
+            <p className="text-xs font-semibold uppercase text-rose-900/60">
+              <Link
+                href={`/products?category=${product?.category!.id}`}
+                className="text-nowrap hover:underline"
+              >
                 {product?.category!.name}
-              </p>
-            </Link>
+              </Link>
+            </p>
 
             <h1 className="text-4xl font-bold text-rose-900/90">
               {product?.name}
             </h1>
             <p className="text-lg">{product?.catchPhrase}</p>
             <p className="py-4 text-3xl text-rose-900/90">{product?.price} €</p>
-            <h2 className="pb-1 text-xl font-semibold text-rose-900/90">
-              Description:
-            </h2>
-            <p className="pb-4">{product?.desc}</p>
-            <h2 className="pb-1 text-xl font-semibold text-rose-900/90">
-              Conseils d&apos;utilisation:
-            </h2>
-            <p>{product?.tips}</p>
+            <section className="flex grow flex-col justify-center">
+              <h2 className="pb-1 text-xl font-semibold text-rose-900/90">
+                Description:
+              </h2>
+              <p className="pb-4">{product?.desc}</p>
+              <h2 className="pb-1 text-xl font-semibold text-rose-900/90">
+                Conseils d&apos;utilisation:
+              </h2>
+              <p>{product?.tips}</p>
+            </section>
           </section>
         </article>
       </div>

@@ -97,11 +97,11 @@ export default function ProductUpdateForm() {
     }
     try {
       await updateProduct(validatedData.data);
-      toast.success("Le message a été envoyé avec succès");
+      toast.success("Le produit a été modifié avec succès");
       setErrors(undefined);
       setProduct(undefined);
     } catch (error) {
-      toast.error("Erreur lors de l'envoi du message");
+      toast.error("Erreur lors de la modification du produit");
     }
   };
 
