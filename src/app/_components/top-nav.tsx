@@ -8,6 +8,7 @@ import Avatar from "~/app/_components/avatar";
 import NavLink from "./navLink";
 import { auth, signOut } from "auth";
 import CartWidget from "./cartWidget";
+import Image from "next/image";
 
 export const revalidate = 0;
 
@@ -15,9 +16,16 @@ export default async function TopNav() {
   const session = await auth();
 
   return (
-    <nav className="fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-800 px-10 py-2 font-bold text-rose-50 ">
+    <nav className="fixed z-20 flex w-full items-center gap-10 border-b border-rose-800 bg-rose-800 px-10 font-bold text-rose-50 ">
       <Link href={"/"} className="font-merienda text-2xl font-bold">
-        Olfactaire
+        <figure>
+          <Image
+            src="/images/Olfactaire logo.svg"
+            alt="alt"
+            width={200}
+            height={100}
+          />
+        </figure>
       </Link>
       <div className="flex-grow"></div>
       <NavLink link={{ href: "/", name: "Accueil" }} />
